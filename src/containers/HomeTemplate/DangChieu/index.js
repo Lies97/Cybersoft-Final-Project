@@ -6,10 +6,13 @@ import "./../../../index.css";
 import { actListMovieApi } from "./modules/actions";
 import { connect } from "react-redux";
 import Movie from "../../../components/Movie";
+import { actListMovieScheduleApi } from "../TheoNgay/modules/actions";
+import { actListCumRapApi } from "../ThongTinRap/modules/actions";
 
 class DangChieu extends Component {
   componentDidMount() {
     this.props.listMovieApi();
+    this.props.listMovieScheduleAPI();
   }
   constructor(props) {
     super(props);
@@ -65,6 +68,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     listMovieApi: () => dispatch(actListMovieApi()),
+    listMovieScheduleAPI: () => dispatch(actListMovieScheduleApi()),
+    listCumRapApi: (id) => dispatch(actListCumRapApi(id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DangChieu);
