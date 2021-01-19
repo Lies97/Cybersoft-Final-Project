@@ -22,7 +22,7 @@ export const actListMovieScheduleApi = () => {
       dispatch(actListMovieScheduleRequest());
       Axios({
         url:
-          `https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhimTheoNgay?maNhom=GP01&soTrang=1&soPhanTuTrenTrang=10&tuNgay=${fromDate}&denNgay=${toDate}`,
+          `https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhimTheoNgay?maNhom=GP10&soTrang=1&soPhanTuTrenTrang=10&tuNgay=${fromDate}&denNgay=${toDate}`,
         method: "GET",
       })
         .then((result) => {

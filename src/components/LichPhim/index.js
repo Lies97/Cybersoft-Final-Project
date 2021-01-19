@@ -18,18 +18,30 @@ class LichPhim extends Component {
     componentDidMount() {
         const cumRap = ["BHDStar", "CineStar", "MegaGS", "Galaxy", "LotteCinima"];
         cumRap.forEach((id) => {
+            // Axios({
+            //     url:
+            //     `https://movie0706.cybersoft.edu.vn/api/QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${id}`,
+            //     method: "GET",
+            // }).then((res) => {
+            //     this.setState({
+            //         // [id]: res.data,
+            //     },() => {
+            //         // console.log('id', this.state[id]);
+            //     })
+            // }).catch((err) => {
+            //     console.log(err);
+            // })
+            
             Axios({
                 url:
-                `https://movie0706.cybersoft.edu.vn/api/QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${id}`,
+                `https://movie0706.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${id}&maNhom=GP10`,
                 method: "GET",
-            }).then((res) => {
+            })
+            .then((res) => {
                 this.setState({
                     [id]: res.data,
-                },() => {
-                    console.log('id', this.state.LotteCinima);
                 })
-            }).catch((err) => {
-                console.log(err);
+                // console.log('res', this.state[id]);
             })
         })
     }
@@ -39,6 +51,22 @@ class LichPhim extends Component {
         })
     }
 
+    handleHeThongRap = (item, index) => {
+        const { danhSachPhim = [], maCumRap: rapTen } = item;
+        console.log('rapTen', rapTen);
+        console.log('index', index);
+        const x = danhSachPhim.map((item) => item.lstLichChieuTheoPhim);
+        x.map((item) => {
+            console.log('item', item);
+            const now = new Date().valueOf();
+            const finalItem = item.filter((nestedItem) => new Date(nestedItem.ngayChieuGioChieu).valueOf() > now)
+            this.setState({
+                [rapTen]: finalItem
+            }, () => {
+                console.log('finalItem', finalItem);
+            })
+        })
+    }
     renderRapLogo = () => {
         const { rap } = data;
         const { activeLink } = this.state;
@@ -53,25 +81,54 @@ class LichPhim extends Component {
         })
     }
 
-    renderHeThongRap = (rap) => {
-        return rap.map((item) => {
-            const tempItem = item.tenCumRap.split('-');
-            const coloredLabel = tempItem[0];
-            const normalLabel = tempItem[1];
-            return (
-                <div className="row container-lich-phim">
-                    <div className="col-3 cursor">
-                        test
+    renderHeThongRap = (data) => {
+        if (data[0]) {
+            const { logo = "", lstCumRap : rap = [] } = data[0];
+            return rap.map((item, index) => {
+                const tempItem = item.tenCumRap.split('-');
+                const coloredLabel = tempItem[0];
+                const normalLabel = tempItem[1];
+                return (
+                    <div className="row container-lich-phim" onClick={() => {this.handleHeThongRap(item, index)}}>
+                        <div className="col-3 cursor img">
+                            <img src={logo} />
+                        </div>
+                        <div className="col-9 cursor">
+                            <span className="colored-label">{coloredLabel}</span> - <span className="normal-label">{normalLabel}</span>
+                            <p className="grey-color">{item.diaChi}</p>
+                            <a className="red-color">[chi tiết]</a>
+                        </div>
                     </div>
-                    <div className="col-9 cursor">
-                        <span>{coloredLabel}</span> - <span>{normalLabel}</span>
-                        <p>{item.diaChi}</p>
-                        <p>[chi tiết]</p>
-                    </div>
-                </div>
-            )
-        })
+                )
+            })
+        }
     }
+
+    renderListMovie = () => {
+        return (
+            <div className="row container-lich-phim" 
+            // onClick={() => {this.handleHeThongRap(item, index)}}
+            >
+                <div className="col-1 cursor img">
+                    {/* <img src={logo} /> */}
+                    for logo
+                </div>
+                <div className="col-11 cursor">
+                    <span className="colored-label">text</span> - <span className="normal-label">text</span>
+                    <p className="grey-color">test</p>
+                </div>
+                <div className="col-12 text">
+                    2D Digital
+                </div>
+                <div className="col-12">
+                    <button className="time">
+                        data
+                    </button>
+                </div>
+            </div>
+        )
+    }
+
     render() {
         const { 
             BHDStar,
@@ -95,7 +152,7 @@ class LichPhim extends Component {
                         {(LotteCinima && activeLink === 5) && (this.renderHeThongRap(LotteCinima))}
                     </div>
                     <div className="listMovies col-6">
-
+                        {this.renderListMovie()}
                     </div>
                 </div>
             </div>
