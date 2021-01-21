@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { routesHome, routesAdmin } from "./routes/index";
 import HomeTemplate from "./containers/HomeTemplate";
+import AdminTemplate from "./containers/AdminTemplate";
 import Pagenotfound from "./containers/PageNotFault";
 // import NavbarHome from "./components/NavbarHome";
 // import News from "./components/News";
@@ -20,20 +21,20 @@ const showLayoutHome = (routes) => {
     });
   }
 };
-// const showLayoutAdmin = (routes) => {
-//   if (routes && routes.length > 0) {
-//     return routes.map((item, index) => {
-//       return (
-//         <AdminTemplate
-//           key={index}
-//           exact={item.exact}
-//           path={item.path}
-//           Component={item.component}
-//         />
-//       );
-//     });
-//   }
-// };
+const showLayoutAdmin = (routes) => {
+  if (routes && routes.length > 0) {
+    return routes.map((item, index) => {
+      return (
+        <AdminTemplate
+          key={index}
+          exact={item.exact}
+          path={item.path}
+          Component={item.component}
+        />
+      );
+    });
+  }
+};
 
 function App() {
   return (
@@ -41,7 +42,7 @@ function App() {
       <div>
         <Switch>
           {showLayoutHome(routesHome)}
-          {/* {showLayoutAdmin(routesAdmin)} */}
+          {showLayoutAdmin(routesAdmin)}
           <Route path="" Component={Pagenotfound} />
         </Switch>
       </div>
