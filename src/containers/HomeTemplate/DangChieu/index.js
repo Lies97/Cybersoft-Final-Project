@@ -8,6 +8,9 @@ import { connect } from "react-redux";
 import Movie from "../../../components/Movie";
 import { actListMovieScheduleApi } from "../TheoNgay/modules/actions";
 import { actListCumRapApi } from "../ThongTinRap/modules/actions";
+import LichPhim from "../../../components/LichPhim";
+import News from "../../../components/News";
+import Carousel from "../../../components/Carousel/index";
 
 class DangChieu extends Component {
   componentDidMount() {
@@ -42,19 +45,24 @@ class DangChieu extends Component {
       rows: 2,
     };
     return (
-      <div className="container mt-5 ">
-        <h2>Previous and Next methods</h2>
-        <Slider ref={(c) => (this.slider = c)} {...settings}>
-          {this.renderHMTL()}
-        </Slider>
-        <div style={{ textAlign: "center" }}>
-          <button className="button previous" onClick={this.previous}>
-            Previous
-          </button>
-          <button className="button next" onClick={this.next}>
-            Next
-          </button>
+      <div>
+        <Carousel></Carousel>
+        <div className="container mt-5 " id="lichChieu">
+          <h2>Previous and Next methods</h2>
+          <Slider ref={(c) => (this.slider = c)} {...settings}>
+            {this.renderHMTL()}
+          </Slider>
+          <div style={{ textAlign: "center" }}>
+            <button className="button previous" onClick={this.previous}>
+              Previous
+            </button>
+            <button className="button next" onClick={this.next}>
+              Next
+            </button>
+          </div>
         </div>
+        <LichPhim></LichPhim>
+        <News></News>
       </div>
     );
   }

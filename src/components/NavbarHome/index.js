@@ -3,7 +3,10 @@ import "./../../index.css";
 
 export default function NavbarHome() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav
+      className="navbar navbar-expand-lg navbar-light bg-light"
+      style={{ backgroundColor: "blue" }}
+    >
       <a className="navbar-brand" href="#">
         <img src="./../../../../logomain.png" width="220"></img>
       </a>
@@ -23,22 +26,22 @@ export default function NavbarHome() {
           <div className="header__right">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="#lichChieu">
                   Lịch Chiếu
                 </a>
               </li>
               <li className="nav-item ">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="#lichFilm">
                   Cụm Rạp
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="#news">
                   Tin Tức
                 </a>
               </li>
               <li className="nav-item ">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="#ungDung">
                   Ứng Dụng
                 </a>
               </li>

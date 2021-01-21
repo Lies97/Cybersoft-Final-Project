@@ -17,10 +17,18 @@ class DetailPage extends Component {
       return data.lichChieu.map((item) => {
         return (
           <tr key={item.maLichChieu}>
-            <td>{item.thongTinRap.tenCumRap}</td>
-            <td>{item.thongTinRap.tenRap}</td>
-            <td>{new Date(item.ngayChieuGioChieu).toLocaleTimeString()}</td>
-            <td>{new Date(item.ngayChieuGioChieu).toLocaleDateString()}</td>
+            <td>
+              <p>{item.thongTinRap.tenCumRap}</p>
+            </td>
+            <td>
+              <p>{item.thongTinRap.tenRap}</p>
+            </td>
+            <td>
+              <p>{new Date(item.ngayChieuGioChieu).toLocaleTimeString()}</p>
+            </td>
+            <td>
+              <p>{new Date(item.ngayChieuGioChieu).toLocaleDateString()}</p>
+            </td>
             <td>
               <Link className="btn btn-success" to="/">
                 Booking
@@ -36,41 +44,67 @@ class DetailPage extends Component {
     const { loading, data } = this.props;
     if (loading) return <Loader />;
     return (
-      <div className="container">
-        <h3>DetailPage</h3>
-        <div className="row">
-          <div className="col-md-6">
-            <img className="img-fluid" src={data && data.hinhAnh} alt="" />
-            <button className="btn btn-success">Mua vé </button>
+      <div className="BG__chitietfilm">
+        <div className="container">
+          {/* <h3 style={{ color: "whitesmoke" }}>Chi tiết film</h3> */}
+          <div className="row">
+            <div className="col-md-6">
+              <img className="img-fluid" src={data && data.hinhAnh} alt="" />
+              {/* <button className="btn btn-success">Mua vé </button> */}
+            </div>
+            <div className="col-md-6">
+              <table className="table">
+                <tbody>
+                  <tr>
+                    <td>
+                      <p>Tên Phim</p>
+                    </td>
+                    <td>
+                      <p>{data && data.tenPhim}</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <p>Mô tả</p>{" "}
+                    </td>
+                    <td>
+                      <p>{data && data.moTa}</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <button
+                      className="btn btn-success"
+                      style={{ width: "100px" }}
+                    >
+                      Mua vé{" "}
+                    </button>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div className="col-md-6">
-            <table className="table">
-              <tbody>
-                <tr>
-                  <td>Ten Phim</td>
-                  <td>{data && data.tenPhim}</td>
-                </tr>
-                <tr>
-                  <td>Mo ta</td>
-                  <td>{data && data.moTa}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-12">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Cum rap</th>
-                  <th>Ten rap</th>
-                  <th>Gio chieu</th>
-                  <th>Ngay chieu</th>
-                </tr>
-              </thead>
-              <tbody>{this.renderTable()}</tbody>
-            </table>
+          <div className="row">
+            <div className="col-md-12">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>
+                      <p>Cụm rạp</p>
+                    </th>
+                    <th>
+                      <p>Tên rạp</p>
+                    </th>
+                    <th>
+                      <p>Giờ chiếu</p>
+                    </th>
+                    <th>
+                      <p>Ngày chiếu</p>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>{this.renderTable()}</tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

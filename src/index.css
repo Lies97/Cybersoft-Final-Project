@@ -154,3 +154,12 @@ code {
 .tenFilm{
   height: 30px;
 }
+/* chi tiet film  */
+.BG__chitietfilm{
+  background-image:  url(https://img.freepik.com/free-photo/wall-wallpaper-concrete-colored-painted-textured-concept_53876-31799.jpg?size=626&ext=jpg);
+  background-repeat: none;
+  background-size: cover;
+}
+.BG__chitietfilm p{
+  color: whitesmoke;
+}

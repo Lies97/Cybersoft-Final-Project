@@ -16,7 +16,7 @@ export default class Movie extends Component {
             </div>
 
             <Link className="btn btn-success" to={`/detail/${movie.maPhim}`}>
-              chi tiet film
+              Chi tiết Film
             </Link>
           </div>
         </div>
