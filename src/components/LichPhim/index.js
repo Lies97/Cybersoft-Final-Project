@@ -12,6 +12,8 @@ class LichPhim extends Component {
             MegaGS: [],
             Galaxy: [],
             LotteCinima: [],
+            activeRapLink: 0,
+            listToRender: [],
         }
     }
     
@@ -41,32 +43,59 @@ class LichPhim extends Component {
                 this.setState({
                     [id]: res.data,
                 })
-                // console.log('res', this.state[id]);
             })
         })
     }
     handleButton = (id) => {
         this.setState({
-            activeLink : id
+            activeLink: id,
+            activeRapLink: 0,
         })
     }
 
     handleHeThongRap = (item, index) => {
-        const { danhSachPhim = [], maCumRap: rapTen } = item;
-        console.log('rapTen', rapTen);
-        console.log('index', index);
+        const { danhSachPhim = [] } = item;
+        let { maCumRap: rapTen } = item;
         const x = danhSachPhim.map((item) => item.lstLichChieuTheoPhim);
-        x.map((item) => {
-            console.log('item', item);
-            const now = new Date().valueOf();
-            const finalItem = item.filter((nestedItem) => new Date(nestedItem.ngayChieuGioChieu).valueOf() > now)
-            this.setState({
-                [rapTen]: finalItem
-            }, () => {
-                console.log('finalItem', finalItem);
+        console.log('item', item);
+        this.setState({
+            activeRapLink: index
+        }, () => {
+            x.map((data) => {
+                let now = new Date();
+                // mock date
+                now.setDate(1);
+                now.setMonth(1);
+                now.setHours(0);
+                now.setMinutes(0);
+                now.setSeconds(0);
+                now = now.valueOf();
+                const finalItem = data.filter((nestedItem) => new Date(nestedItem.ngayChieuGioChieu).valueOf() > now);
+                String.prototype.capitalize = function() {
+                    return this.charAt(0).toUpperCase() + this.slice(1);
+                }
+                rapTen = rapTen.split('-').join(' ');
+                rapTen = this.toUpperCase(rapTen);
+                rapTen[0].toLowerCase();
+                this.setState({
+                    [rapTen]: {...item, finalItem}
+                }, () => {
+                    console.log(this.state);
+                })
             })
         })
     }
+
+    toUpperCase = (str) => {
+        const array1 = str.split(' ');
+        const newarray1 = [];
+            
+        array1.forEach((item) => {
+            newarray1.push(item.charAt(0).toUpperCase()+item.slice(1));
+        })
+        return newarray1.join('');
+    }
+
     renderRapLogo = () => {
         const { rap } = data;
         const { activeLink } = this.state;
@@ -105,28 +134,121 @@ class LichPhim extends Component {
     }
 
     renderListMovie = () => {
-        return (
-            <div className="row container-lich-phim" 
-            // onClick={() => {this.handleHeThongRap(item, index)}}
-            >
-                <div className="col-1 cursor img">
-                    {/* <img src={logo} /> */}
-                    for logo
+        const { activeLink, activeRapLink } = this.state;
+        let listRender = {};
+        if (activeLink == 0) {
+            switch (activeRapLink) {
+                case 0 : {
+                    listRender = this.state.BhdStarCineplexPhamHung || {} ;
+                    break;
+                }
+                case 1 : {
+                    listRender = this.state.BhdStarCineplexVincomQuangTrung || {} ;
+                    break;
+                }
+                case 2 : {
+                    listRender = this.state.BhdStarCineplexVincomThaoDien || {} ;
+                    break;
+                }
+                default: 
+                    listRender = this.state.BhdStarCineplex32 || {} ;
+                    break;
+            }
+
+        } else if (activeLink == 1) {
+            switch (activeRapLink) {
+                case 0 : {
+                    listRender = this.state.CnsQuocThanh || {};
+                    break;
+                }
+                default: 
+                    listRender = this.state.CnsHaiBaTrung || {};
+                    break;
+            }
+        } else if (activeLink == 2) {
+
+        } else if (activeLink == 3) {
+            listRender = this.state.MegagsCaoThang || {};
+        } else if (activeLink == 4) {
+            switch (activeRapLink) {
+                case 0 : {
+                    listRender = this.state.GlxHuynhTanPhat || {};
+                    break;
+                }
+                case 1 : {
+                    listRender = this.state.GlxNguyenDu || {};
+                    break;
+                }
+                case 2 : {
+                    listRender = this.state.GlxNguyenVanQua || {};
+                    break;
+                }
+                case 3 : {
+                    listRender = this.state.GlxQuangTrung || {};
+                    break;
+                }
+                default: 
+                    listRender = this.state.GlxTanBinh || {};
+                    break;
+            }
+        } else {
+            switch (activeRapLink) {
+                case 0 : {
+                    listRender = this.state.LotteCantavil || {};
+                    break;
+                }
+                case 1 : {
+                    listRender = this.state.LotteCongHoa || {};
+                    break;
+                }
+                case 2 : {
+                    listRender = this.state.LotteGoVap || {};
+                    break;
+                }
+                case 3 : {
+                    listRender = this.state.LotteNamSaiGon || {};
+                    break;
+                }
+                case 4 : {
+                    listRender = this.state.LottePhuTho || {};
+                    break;
+                }
+                default: 
+                    listRender = this.state.LotteThuDuc || {};
+                    break;
+            }
+        }
+        console.log('listRender', listRender);
+        if (listRender.finalItem && listRender.finalItem.length > 0) {
+            let x = [];
+            listRender.danhSachPhim.forEach((data) => {
+                console.log(data); 
+                x = data.lstLichChieuTheoPhim.filter((nestedData) => JSON.stringify(nestedData) == JSON.stringify(listRender.finalItem[0]))
+            })
+            console.log('x', x);
+            return (
+                <div className="row container-lich-phim" 
+                // onClick={() => {this.handleHeThongRap(item, index)}}
+                >
+                    <div className="col-1 cursor img">
+                        {/* <img src={logo} /> */}
+                        for logo
+                    </div>
+                    <div className="col-11 cursor">
+                        <span className="colored-label">text</span> - <span className="normal-label">text</span>
+                        <p className="grey-color">test</p>
+                    </div>
+                    <div className="col-12 text">
+                        2D Digital
+                    </div>
+                    <div className="col-12">
+                        <button className="time">
+                            data
+                        </button>
+                    </div>
                 </div>
-                <div className="col-11 cursor">
-                    <span className="colored-label">text</span> - <span className="normal-label">text</span>
-                    <p className="grey-color">test</p>
-                </div>
-                <div className="col-12 text">
-                    2D Digital
-                </div>
-                <div className="col-12">
-                    <button className="time">
-                        data
-                    </button>
-                </div>
-            </div>
-        )
+            )
+        }
     }
 
     render() {
