@@ -107,7 +107,7 @@ class LichPhim extends Component {
                 const coloredLabel = tempItem[0];
                 const normalLabel = tempItem[1];
                 return (
-                    <div className={ (index === activeRapLink ? "row container-lich-phim active1" : "row container-lich-phim")}onClick={() => {this.handleHeThongRap(item, index)}}>
+                    <div className={ (index === activeRapLink ? "row container-lich-phim active1" : "row container-lich-phim")} onClick={() => {this.handleHeThongRap(item, index)}}>
                         <div className="col-3 cursor img">
                             <img src={logo} />
                         </div>
@@ -259,10 +259,15 @@ class LichPhim extends Component {
                             </div>
                         </div>
                     )
+                } else {
+                    return (
+                        <div>
+                            Loading...
+                        </div>
+                    )
                 }
         })
         } else {
-            
             return (
                 <div className="Test">
                     Khong co suat chieu
@@ -282,9 +287,6 @@ class LichPhim extends Component {
             loadingListMovie
         } = this.state;
         let className = "listMovies col-6";
-        if (loadingListMovie) {
-            className += " disable";
-        }
         return (
             <div className="row LichPhim container-lich-phim">
                 <div className="row container container-lich-phim">
