@@ -14,26 +14,13 @@ class LichPhim extends Component {
             LotteCinima: [],
             activeRapLink: 0,
             listToRender: [],
+            loadingListMovie: null
         }
     }
     
     componentDidMount() {
         const cumRap = ["BHDStar", "CineStar", "MegaGS", "Galaxy", "LotteCinima"];
         cumRap.forEach((id) => {
-            // Axios({
-            //     url:
-            //     `https://movie0706.cybersoft.edu.vn/api/QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${id}`,
-            //     method: "GET",
-            // }).then((res) => {
-            //     this.setState({
-            //         // [id]: res.data,
-            //     },() => {
-            //         // console.log('id', this.state[id]);
-            //     })
-            // }).catch((err) => {
-            //     console.log(err);
-            // })
-            
             Axios({
                 url:
                 `https://movie0706.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maHeThongRap=${id}&maNhom=GP10`,
@@ -54,34 +41,35 @@ class LichPhim extends Component {
     }
 
     handleHeThongRap = (item, index) => {
-        const { danhSachPhim = [] } = item;
+        let { danhSachPhim = [] } = item;
         let { maCumRap: rapTen } = item;
-        const x = danhSachPhim.map((item) => item.lstLichChieuTheoPhim);
-        console.log('item', item);
         this.setState({
-            activeRapLink: index
+            activeRapLink: index,
+            loadingListMovie: true
         }, () => {
-            x.map((data) => {
-                let now = new Date();
-                // mock date
-                now.setDate(1);
-                now.setMonth(1);
-                now.setHours(0);
-                now.setMinutes(0);
-                now.setSeconds(0);
-                now = now.valueOf();
-                const finalItem = data.filter((nestedItem) => new Date(nestedItem.ngayChieuGioChieu).valueOf() > now);
-                String.prototype.capitalize = function() {
-                    return this.charAt(0).toUpperCase() + this.slice(1);
-                }
-                rapTen = rapTen.split('-').join(' ');
-                rapTen = this.toUpperCase(rapTen);
-                rapTen[0].toLowerCase();
-                this.setState({
-                    [rapTen]: {...item, finalItem}
-                }, () => {
-                    console.log(this.state);
+            danhSachPhim = danhSachPhim.filter((item) => {
+                item.lstLichChieuTheoPhim = item.lstLichChieuTheoPhim.filter((nestedData) => {
+                    let now = new Date();
+                    // mock date
+                    now.setDate(6);
+                    now.setHours(0);
+                    now.setMinutes(0);
+                    now.setSeconds(0);
+                    const date = now.getDate();
+                    const month = now.getMonth();
+                    const year = now.getFullYear();
+                    now = now.valueOf();
+                    rapTen = rapTen.split('-').join(' ');
+                    rapTen = this.toUpperCase(rapTen);
+                    rapTen[0].toLowerCase();
+                    const moreTime = new Date((nestedData.ngayChieuGioChieu).valueOf() > now);
+                    const equalDate = (date == new Date(nestedData.ngayChieuGioChieu).getDate()) && (month == new Date(nestedData.ngayChieuGioChieu).getMonth()) && (year == new Date(nestedData.ngayChieuGioChieu).getFullYear());
+                    return moreTime && equalDate;
                 })
+                return item.lstLichChieuTheoPhim.length > 0;
+            })
+            this.setState({
+                [rapTen]: {...item, danhSachPhim}
             })
         })
     }
@@ -111,6 +99,7 @@ class LichPhim extends Component {
     }
 
     renderHeThongRap = (data) => {
+        const { activeRapLink } = this.state;
         if (data[0]) {
             const { logo = "", lstCumRap : rap = [] } = data[0];
             return rap.map((item, index) => {
@@ -118,7 +107,7 @@ class LichPhim extends Component {
                 const coloredLabel = tempItem[0];
                 const normalLabel = tempItem[1];
                 return (
-                    <div className="row container-lich-phim" onClick={() => {this.handleHeThongRap(item, index)}}>
+                    <div className={ (index === activeRapLink ? "row container-lich-phim active1" : "row container-lich-phim")}onClick={() => {this.handleHeThongRap(item, index)}}>
                         <div className="col-3 cursor img">
                             <img src={logo} />
                         </div>
@@ -218,34 +207,65 @@ class LichPhim extends Component {
                     break;
             }
         }
-        console.log('listRender', listRender);
-        if (listRender.finalItem && listRender.finalItem.length > 0) {
-            let x = [];
-            listRender.danhSachPhim.forEach((data) => {
-                console.log(data); 
-                x = data.lstLichChieuTheoPhim.filter((nestedData) => JSON.stringify(nestedData) == JSON.stringify(listRender.finalItem[0]))
-            })
-            console.log('x', x);
+        if (listRender.danhSachPhim && listRender.danhSachPhim.length > 0) {
+            return listRender.danhSachPhim.map((item) => {
+                let lichChieu = [];
+                if (this.state.loadingListMovie) {
+                    Axios({
+                        method: 'GET',
+                        url: `https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?MaPhim=${item.maPhim}`
+                    }).then((res) => {
+                        const { data } = res;
+                        if (data) {
+                            item.thoiLuongPhim = data.lichChieu[0].thoiLuong;
+                            item.diemDanhGia = data.danhGia;
+                        }
+                        this.setState({
+                            loadingListMovie: false,
+                            listRender
+                        })
+                    })
+                }
+                item.lstLichChieuTheoPhim.forEach((nestedData) => {
+                    let time = new Date(nestedData.ngayChieuGioChieu).valueOf() + 7200000;
+                    time = new Date(time);
+                    const hour = time.getHours();
+                    const minutes = time.getMinutes();
+                    time = `${hour}:${minutes}`
+                    const obj = { from : nestedData.ngayChieuGioChieu.split('T')[1].slice(0, 5), to: time };
+                    lichChieu.push(obj);
+                });
+                if (!this.state.loadingListMovie) {
+                    return (
+                        <div className="row container-lich-phim" key={item.maPhim}>
+                            <div className="col-2 cursor img">
+                                <img src={item.hinhAnh} />
+                            </div>
+                            <div className="col-10 cursor">
+                                <span className="colored-label">P</span> - <span className="normal-label">{item.tenPhim}</span>
+                                <p className="grey-color">{item.thoiLuongPhim} Phút - TIX {item.diemDanhGia}</p>
+                            </div>
+                            <div className="col-12 text">
+                                2D Digital
+                            </div>
+                            <div className="col-12">
+                                {lichChieu.map((nestedData) => {
+                                    return (
+                                        <button className="time">
+                                            <span className="from">{nestedData.from}</span> ~ <span className="to">{nestedData.to}</span>
+                                        </button>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    )
+                }
+        })
+        } else {
+            
             return (
-                <div className="row container-lich-phim" 
-                // onClick={() => {this.handleHeThongRap(item, index)}}
-                >
-                    <div className="col-1 cursor img">
-                        {/* <img src={logo} /> */}
-                        for logo
-                    </div>
-                    <div className="col-11 cursor">
-                        <span className="colored-label">text</span> - <span className="normal-label">text</span>
-                        <p className="grey-color">test</p>
-                    </div>
-                    <div className="col-12 text">
-                        2D Digital
-                    </div>
-                    <div className="col-12">
-                        <button className="time">
-                            data
-                        </button>
-                    </div>
+                <div className="Test">
+                    Khong co suat chieu
                 </div>
             )
         }
@@ -258,8 +278,13 @@ class LichPhim extends Component {
             MegaGS,
             Galaxy,
             LotteCinima,
-            activeLink
+            activeLink,
+            loadingListMovie
         } = this.state;
+        let className = "listMovies col-6";
+        if (loadingListMovie) {
+            className += " disable";
+        }
         return (
             <div className="row LichPhim container-lich-phim">
                 <div className="row container container-lich-phim">
@@ -273,7 +298,7 @@ class LichPhim extends Component {
                         {(Galaxy && activeLink === 4) && (this.renderHeThongRap(Galaxy))}
                         {(LotteCinima && activeLink === 5) && (this.renderHeThongRap(LotteCinima))}
                     </div>
-                    <div className="listMovies col-6">
+                    <div className={className}>
                         {this.renderListMovie()}
                     </div>
                 </div>

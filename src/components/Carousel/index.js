@@ -45,9 +45,6 @@ class Carousel extends Component {
     }
 
     setLoading = (item, bool) => {
-        let { rap, ngayXem, suatChieu, phim } = this.select;
-        rap = rap.current.select;
-        ngayXem = ngayXem.current.select;
         if (bool == true) {
             this.setState({
                 [item]: true
@@ -56,6 +53,9 @@ class Carousel extends Component {
             this.setState({
                 [item]: false
             }, () => {
+                let { rap, ngayXem } = this.select;
+                rap = rap.current.select;
+                ngayXem = ngayXem.current.select;
                 item === 'isLoadingRap' ? rap.focus() : ngayXem.focus()
             })
         }
@@ -291,11 +291,28 @@ class Carousel extends Component {
                 </a>
                 </div>
                 <div className="select-box-sections">
-                    <Select options={phimOptions && phimOptions} className="custom-select-lg first-item widthByPercent" aria-label="Default select example" ref={this.select.phim} onChange={(e) => {this.handleChange(e, "phim", rapOptions)}} placeholder="Phim"></Select>
-                    <Select isDisabled={isLoadingRap} options={rapOptions && rapOptions} className="custom-select-lg widthByPercent" aria-label="Default select example"  openMenuOnFocus="true" ref={this.select.rap} onChange={(e) => {this.handleChange(e, "rap", ngayXemOptions)}} placeholder="Rạp"></Select>
-                    <Select isDisabled={isLoadingNgayXem} options={ngayXemOptions && ngayXemOptions} className="custom-select-lg widthByPercent" aria-label="Default select example"  openMenuOnFocus="true" ref={this.select.ngayXem} onChange={(e) => {this.handleChange(e, "ngayXem", suatChieuOptions)}} placeholder="Ngày xem"></Select>
-                    <Select options={suatChieuOptions && suatChieuOptions} className="custom-select-lg widthByPercent" aria-label="Default select example"  openMenuOnFocus="true" ref={this.select.suatChieu} onChange={(e) => {this.handleChange(e, "suatChieu", null)}} placeholder="Suất chiếu"></Select>
-                    <button className="widthByPercent button-mua-ve" onClick={this.handleClick}>MUA VÉ NGAY</button>
+                    <Select isDisabled={isLoadingRap || isLoadingNgayXem} options={phimOptions && phimOptions} className="custom-select-lg first-item widthByPercent" aria-label="Default select example" ref={this.select.phim} onChange={(e) => {this.handleChange(e, "phim", rapOptions)}} placeholder="Phim"></Select>
+                    {isLoadingRap ? 
+                        <div className="widthByPercent">
+                            <button className="btn btn-primary w-100" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Loading...
+                            </button>
+                        </div>
+                    :
+                    <Select isDisabled={isLoadingNgayXem} noOptionsMessage={() => "Vui lòng chọn phim"}options={rapOptions && rapOptions} className="custom-select-lg widthByPercent" aria-label="Default select example"  openMenuOnFocus="true" ref={this.select.rap} onChange={(e) => {this.handleChange(e, "rap", ngayXemOptions)}} placeholder="Rạp">
+                    </Select>}
+                    {isLoadingNgayXem ? 
+                        <div className="widthByPercent">
+                            <button className="btn btn-primary w-100" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Loading...
+                            </button>
+                        </div>
+                    :
+                    <Select noOptionsMessage={() => "Vui lòng chọn rạp"} options={ngayXemOptions && ngayXemOptions} className="custom-select-lg widthByPercent" aria-label="Default select example"  openMenuOnFocus="true" ref={this.select.ngayXem} onChange={(e) => {this.handleChange(e, "ngayXem", suatChieuOptions)}} placeholder="Ngày xem"></Select>}
+                    <Select noOptionsMessage={() => "Vui lòng chọn ngày xem"} options={suatChieuOptions && suatChieuOptions} className="custom-select-lg widthByPercent" aria-label="Default select example"  openMenuOnFocus="true" ref={this.select.suatChieu} onChange={(e) => {this.handleChange(e, "suatChieu", null)}} placeholder="Suất chiếu"></Select>
+                    <button className="widthByPercent btn-danger button-mua-ve" onClick={this.handleClick}>MUA VÉ NGAY</button>
                     <Collapse in={isOpenErrMsg}>
                     <Alert
                     action={
