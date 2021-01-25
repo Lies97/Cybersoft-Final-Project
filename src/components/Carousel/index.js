@@ -61,6 +61,8 @@ class Carousel extends Component {
         }
     }
     handleClick = () => {
+        const { maLichChieu } = this.state;
+        
         this.handleValidation();
         setTimeout(() => { 
             const { errMsg } = this.state;
@@ -180,7 +182,7 @@ class Carousel extends Component {
                         let array = [];
                         ngayXemOptions.forEach((item, index) => {
                             const timeParse = item.ngayChieuGioChieu.split('T')[0];
-                            const object = {label: timeParse, value: item.ngayChieuGioChieu, timeToParse: new Date(timeParse).setHours(0), index: index}
+                            const object = {label: timeParse, value: item.ngayChieuGioChieu, timeToParse: new Date(timeParse).setHours(0), index: index, maLichChieu: item.maLichChieu}
                             array.push(object);
                         })
                         const duplicateIds = array
@@ -207,7 +209,8 @@ class Carousel extends Component {
                     })
                 })
             }
-            else if (this.state.ngayXem && item === 'ngayXem') {                
+            else if (this.state.ngayXem && item === 'ngayXem') {  
+                console.log(e);              
                 this.setState({
                     suatChieu: null,
                 }, () => {
@@ -216,6 +219,7 @@ class Carousel extends Component {
                     }
                     let { ngayXem, multipleSuatChieu } = this.state;
                     let suatChieuOptions = [];
+                    console.log('ngayXem', ngayXem);
                     ngayXem = ngayXem.split('T')[0];
                     const toValidate = multipleSuatChieu.map((item) => {
                         item = item.split('T')[0].slice(0, 5);
@@ -223,17 +227,18 @@ class Carousel extends Component {
                     })  
                     if (toValidate.includes(ngayXem)) {
                         multipleSuatChieu.forEach((item) => {
-                            const temp = {label: item.split('T')[1], value: item.split('T')[1]};
+                            const temp = { label: item.split('T')[1], value: item.split('T')[1], maLichChieu: item.maLichChieu };
                             suatChieuOptions.push(temp);
                         })
                     }
                     else {
                         const gioXem = this.state.ngayXem.split('T')[1].slice(0, 5);
-                        const temp = {label: gioXem, value: gioXem};
+                        const temp = { label: gioXem, value: gioXem };
                         suatChieuOptions.push(temp);
                     }
                     this.setState({
-                        suatChieuOptions
+                        suatChieuOptions,
+                        maLichChieu: e.maLichChieu
                     })
                     suatChieu.focus();
                 })
