@@ -2,8 +2,10 @@ import DangChieu from "../containers/HomeTemplate/DangChieu";
 import DetailPage from "../containers/HomeTemplate/DetailPage";
 import DashboardPage from "../containers/AdminTemplate/DashboardPage";
 import UserPage from "../containers/AdminTemplate/UserPage";
-import AuthPage from "../containers/AdminTemplate/AuthPage";
-export const routesHome = [
+// import AuthPage from "../containers/AdminTemplate/AuthPage";
+import ListUser from "../containers/AdminTemplate/UserManager";
+import FilmManeger from "../containers/AdminTemplate/FilmManager";
+const routesHome = [
   {
     exact: true,
     path: "/",
@@ -15,7 +17,7 @@ export const routesHome = [
     component: DetailPage,
   },
 ];
-export const routesAdmin = [
+const routesAdmin = [
   {
     exact: false,
     path: "/dashboard",
@@ -28,7 +30,13 @@ export const routesAdmin = [
   },
   {
     exact: false,
-    path: "/auth",
-    component: AuthPage,
+    path: "/usermanager",
+    component: ListUser,
+  },
+  {
+    exact: false,
+    path: "/filmmanager",
+    component: FilmManeger,
   },
 ];
+export { routesHome, routesAdmin };

@@ -4,6 +4,7 @@ import { routesHome, routesAdmin } from "./routes/index";
 import HomeTemplate from "./containers/HomeTemplate";
 import AdminTemplate from "./containers/AdminTemplate";
 import Pagenotfound from "./containers/PageNotFault";
+import AuthPage from "./containers/AdminTemplate/AuthPage";
 // import NavbarHome from "./components/NavbarHome";
 // import News from "./components/News";
 
@@ -43,6 +44,7 @@ function App() {
         <Switch>
           {showLayoutHome(routesHome)}
           {showLayoutAdmin(routesAdmin)}
+          <Route exact={false} path="/auth" component={AuthPage} />
           <Route path="" Component={Pagenotfound} />
         </Switch>
       </div>

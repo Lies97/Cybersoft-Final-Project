@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./../../index.css";
 
 export default function NavbarHome() {
@@ -26,24 +27,32 @@ export default function NavbarHome() {
           <div className="header__right">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link" href="#lichChieu">
-                  Lịch Chiếu
-                </a>
+                <Link to="/">
+                  <a className="nav-link" href="#lichChieu">
+                    Lịch Chiếu
+                  </a>
+                </Link>
               </li>
               <li className="nav-item ">
-                <a className="nav-link" href="#lichFilm">
-                  Cụm Rạp
-                </a>
+                <Link to="/">
+                  <a className="nav-link" href="#lichFilm">
+                    Cụm Rạp
+                  </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#news">
-                  Tin Tức
-                </a>
+                <Link to="/">
+                  <a className="nav-link" href="#news">
+                    Tin Tức
+                  </a>
+                </Link>
               </li>
               <li className="nav-item ">
-                <a className="nav-link" href="#ungDung">
-                  Ứng Dụng
-                </a>
+                <Link to="/">
+                  <a className="nav-link" href="#ungDung">
+                    Ứng Dụng
+                  </a>
+                </Link>
               </li>
             </ul>
           </div>
