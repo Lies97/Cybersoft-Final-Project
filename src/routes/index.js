@@ -13,6 +13,11 @@ const routesHome = [
   },
   {
     exact: false,
+    path: "/datve/:id",
+    component: DetailPage,
+  },
+  {
+    exact: false,
     path: "/detail/:id",
     component: DetailPage,
   },
