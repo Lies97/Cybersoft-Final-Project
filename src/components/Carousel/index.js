@@ -62,7 +62,6 @@ class Carousel extends Component {
     }
     handleClick = () => {
         const { maLichChieu } = this.state;
-        
         this.handleValidation();
         setTimeout(() => { 
             const { errMsg } = this.state;
@@ -219,7 +218,6 @@ class Carousel extends Component {
                     }
                     let { ngayXem, multipleSuatChieu } = this.state;
                     let suatChieuOptions = [];
-                    console.log('ngayXem', ngayXem);
                     ngayXem = ngayXem.split('T')[0];
                     const toValidate = multipleSuatChieu.map((item) => {
                         item = item.split('T')[0].slice(0, 5);
@@ -233,16 +231,20 @@ class Carousel extends Component {
                     }
                     else {
                         const gioXem = this.state.ngayXem.split('T')[1].slice(0, 5);
-                        const temp = { label: gioXem, value: gioXem };
+                        const temp = { label: gioXem, value: gioXem, maLichChieu: e.maLichChieu };
                         suatChieuOptions.push(temp);
                     }
                     this.setState({
                         suatChieuOptions,
-                        maLichChieu: e.maLichChieu
                     })
                     suatChieu.focus();
                 })
-            }
+            }   
+            else if (this.state.ngayXem && item === 'suatChieu') {
+                this.setState({
+                    maLichChieu: e.maLichChieu
+                })
+            } 
         })
     }
     render() {

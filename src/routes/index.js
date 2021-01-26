@@ -12,8 +12,8 @@ export const routesAdmin = [];
 
 export const routesDatVe = [
   {
-    exact: true,
-    path: `/datve/`,
+    exact: false,
+    path: `/datve/:id`,
     component: DatVe,
   }
 ]
