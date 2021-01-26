@@ -8,8 +8,13 @@
             padding-top: 15px;
             margin-right: auto !important;
             margin-left: auto !important;
+            opacity: 0.5;
             .cursor {
                 cursor: pointer;
+                img {
+                    width: 50px;
+                    height: 50px;
+                }
             }
             .colored-label {
                 color : #8bc541;
@@ -32,6 +37,9 @@
                 white-space: nowrap;
             }
         }
+        .active1 {
+            opacity: 1;
+        }
     }
     ul {
         border: 1px solid grey;
@@ -44,11 +52,15 @@
         }
         .logo {
             cursor: pointer;
-            opacity: 0.7;
+            opacity: 0.5;
             img {
                 width: 50px;
                 height: 50px;
                 margin-left: 50px;
+            }
+            &:hover {
+                opacity: 1 !important;
+                transition: all 0.2s;
             }
         }
         .active {
@@ -60,12 +72,16 @@
 .container-lich-phim {
     margin-right: auto !important;
     margin-left: auto !important;
+    &:hover {
+        opacity: 1 !important;
+        transition: all 0.2s;
+    }
     .img {
         width: 50px;
         height: 50px;
         img {
-            width: 100%;
-            height: 100%;
+            width: 50px;
+            height: 50px;
         }
     }
     .listMovies {
@@ -73,8 +89,18 @@
         padding-bottom: 15px;
         border: 1px solid #000;
         border-left: 0;
+        overflow: auto;
+        transition: all 0.5s;
         .text {
             padding-bottom: 15px;
+        }
+        .normal-label {
+            font-size: 18px;
+            font-family: 'SF Medium';
+            line-height: 22px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #000;
         }
         .time {
             width: calc(25% - 10px);
@@ -89,6 +115,36 @@
             border-radius: 7px;
             color: #9b9b9b;
             border: 1px solid #e4e4e4;
+            .from {
+                font-size: 18px;
+                font-weight: 500;
+                color: #108f3e;
+            }
+            &:hover {
+                .from {
+                    color: #fb4226;
+                    transition: 0.2s;
+                }
+            }
+        }
+        .grey-color {
+            margin: 0;
+            line-height: 1.7;
+            font-size: 12px;
+            color: #9b9b9b;
+        }
+        .text {
+            float: left;
+            width: 100%;
+            font-family: 'SF Medium';
+            font-size: 16px;
+            color: #000;
+            padding-top: 10px;
         }
     }
+}
+
+.disable {
+    background:rgb(189, 180, 180) ; 
+    transition: all 0.5s;
 }
