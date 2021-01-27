@@ -5,6 +5,11 @@ import { connect } from "react-redux";
 import Axios from 'axios';
 import _ from 'lodash';
 import Select from 'react-select';
+import { IconButton } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import Collapse from '@material-ui/core/Collapse';
+import { Link } from "react-router-dom";
+import { Alert } from '@material-ui/lab';
 class Carousel extends Component {
     constructor(props) {
         super(props);
@@ -12,6 +17,13 @@ class Carousel extends Component {
             rapOptions: [],
             ngayXemOptions: [],
             suatChieuOptions: [],
+            phim: 0,
+            rap: '',
+            ngayXem: '',
+            suatChieu: '',
+            isOpenErrMsg: false,
+            isLoadingRap: false,
+            isLoadingNgayXem: false,
         }
         this.select = {
             rap: React.createRef(),
@@ -21,7 +33,70 @@ class Carousel extends Component {
         }
     }
     
+    setErrorMsgStatus = (bool) => {
+        if (bool == true) {
+            this.setState({
+                isOpenErrMsg: true
+            })
+        } else {
+            this.setState({
+                isOpenErrMsg: false
+            })
+        }
+    }
 
+    setLoading = (item, bool) => {
+        if (bool == true) {
+            this.setState({
+                [item]: true
+            })
+        } else {
+            this.setState({
+                [item]: false
+            }, () => {
+                let { rap, ngayXem } = this.select;
+                rap = rap.current.select;
+                ngayXem = ngayXem.current.select;
+                item === 'isLoadingRap' ? rap.focus() : ngayXem.focus()
+            })
+        }
+    }
+    handleClick = () => {
+        const { maLichChieu } = this.state;
+        this.handleValidation();
+        setTimeout(() => { 
+            const { errMsg } = this.state;
+            if (errMsg) {
+                this.setErrorMsgStatus(true)
+            } else
+            return;
+        }, 500)
+    }
+
+    handleValidation = () => {
+        const { phim, rap, ngayXem, suatChieu } = this.state;
+        let errMsg = '';
+        if(!phim) {
+            errMsg = 'Xin hãy chọn phim';
+
+        } else if (!rap) {
+            errMsg = 'Xin hãy chọn rạp';
+
+        } else if (!ngayXem) {
+            errMsg = 'Xin hãy chọn ngày xem';
+
+        } else if (!suatChieu) {
+            errMsg = 'Xin hãy chọn suất chiếu';
+        } else if (phim && rap && ngayXem && suatChieu) {
+            errMsg = '';
+            this.setState({
+                isOpenErrMsg: false
+            })
+        }
+        this.setState({
+            errMsg
+        })
+    }
     handleChange = (e, item, arr) => {
         let { rap, ngayXem, suatChieu, phim } = this.select;
         rap = rap.current.select;
@@ -49,6 +124,7 @@ class Carousel extends Component {
                     if (this.select.suatChieu.current.select.props.value) {
                         this.select.suatChieu.current.select.clearValue();
                     }
+                    this.setLoading("isLoadingRap", true);
                     Axios({
                         method: 'GET',
                         url: `https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?MaPhim=${this.state[item]}`
@@ -68,9 +144,7 @@ class Carousel extends Component {
                         this.setState({
                             rapOptions: arr,
                         }, () => {
-                            if (this.state.rapOptions) {
-                                rap.focus();
-                            }
+                            this.setLoading("isLoadingRap", false);
                         })
                     })
                     .catch((err) => {
@@ -91,6 +165,7 @@ class Carousel extends Component {
                     if (this.select.suatChieu.current.select.props.value) {
                         this.select.suatChieu.current.select.clearValue();
                     }
+                    this.setLoading("isLoadingNgayXem", true);
                     Axios({
                         method: 'GET',
                         url: `https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?MaPhim=${this.state.phim}`
@@ -107,7 +182,7 @@ class Carousel extends Component {
                         let array = [];
                         ngayXemOptions.forEach((item, index) => {
                             const timeParse = item.ngayChieuGioChieu.split('T')[0];
-                            const object = {label: timeParse, value: item.ngayChieuGioChieu, timeToParse: new Date(timeParse).setHours(0), index: index}
+                            const object = {label: timeParse, value: item.ngayChieuGioChieu, timeToParse: new Date(timeParse).setHours(0), index: index, maLichChieu: item.maLichChieu}
                             array.push(object);
                         })
                         const duplicateIds = array
@@ -129,14 +204,13 @@ class Carousel extends Component {
                             ngayXemOptions: sortedArray,
                             multipleSuatChieu: value
                         }, () => {
-                            if (this.state.ngayXemOptions) {
-                                ngayXem.focus();
-                            }
+                            this.setLoading("isLoadingNgayXem", false);
                         })
                     })
                 })
             }
-            else if (this.state.ngayXem && item === 'ngayXem') {                
+            else if (this.state.ngayXem && item === 'ngayXem') {  
+                console.log(e);              
                 this.setState({
                     suatChieu: null,
                 }, () => {
@@ -152,31 +226,41 @@ class Carousel extends Component {
                     })  
                     if (toValidate.includes(ngayXem)) {
                         multipleSuatChieu.forEach((item) => {
-                            const temp = {label: item.split('T')[1], value: item.split('T')[1]};
+                            const temp = { label: item.split('T')[1], value: item.split('T')[1], maLichChieu: item.maLichChieu };
                             suatChieuOptions.push(temp);
                         })
                     }
                     else {
                         const gioXem = this.state.ngayXem.split('T')[1].slice(0, 5);
-                        const temp = {label: gioXem, value: gioXem};
+                        const temp = { label: gioXem, value: gioXem, maLichChieu: e.maLichChieu };
                         suatChieuOptions.push(temp);
                     }
                     this.setState({
-                        suatChieuOptions
+                        suatChieuOptions,
                     })
                     suatChieu.focus();
                 })
-            }
+            }   
+            else if (this.state.ngayXem && item === 'suatChieu') {
+                this.setState({
+                    maLichChieu: e.maLichChieu
+                })
+            } 
         })
     }
     render() {
-        const { rapOptions, ngayXemOptions, suatChieuOptions } = this.state;
+        const { rapOptions, ngayXemOptions, suatChieuOptions, isOpenErrMsg, errMsg, isLoadingRap, isLoadingNgayXem } = this.state;
         const { listMovie = [] } = this.props;
         let phimOptions = [];
         listMovie && listMovie.forEach((item) => {
             const option = {value: item.maPhim, label: item.tenPhim};
             phimOptions.push(option);
         })
+        let toRoute = '';
+        if (this.state.maLichChieu) {
+            toRoute = `/datve/${this.state.maLichChieu}`;
+        }
+        console.log('toRoute', toRoute);
         return (
             <div className="carousel">
                 <div id="carouselExampleCaptions" className="carousel slide" 
@@ -220,11 +304,50 @@ class Carousel extends Component {
                 </a>
                 </div>
                 <div className="select-box-sections">
-                    <Select options={phimOptions && phimOptions} className="custom-select-lg first-item widthByPercent" aria-label="Default select example" ref={this.select.phim} onChange={(e) => {this.handleChange(e, "phim", rapOptions)}} placeholder="Phim"></Select>
-                    <Select options={rapOptions && rapOptions} className="custom-select-lg widthByPercent" aria-label="Default select example"  openMenuOnFocus="true" ref={this.select.rap} onChange={(e) => {this.handleChange(e, "rap", ngayXemOptions)}} placeholder="Rạp"></Select>
-                    <Select options={ngayXemOptions && ngayXemOptions} className="custom-select-lg widthByPercent" aria-label="Default select example"  openMenuOnFocus="true" ref={this.select.ngayXem} onChange={(e) => {this.handleChange(e, "ngayXem", suatChieuOptions)}} placeholder="Ngày xem"></Select>
-                    <Select options={suatChieuOptions && suatChieuOptions} className="custom-select-lg widthByPercent" aria-label="Default select example"  openMenuOnFocus="true" ref={this.select.suatChieu} onChange={(e) => {this.handleChange(e, "suatChieu", null)}} placeholder="Suất chiếu"></Select>
-                    <button className="widthByPercent button-mua-ve">MUA VÉ NGAY</button>
+                    <Select isDisabled={isLoadingRap || isLoadingNgayXem} options={phimOptions && phimOptions} className="custom-select-lg first-item widthByPercent" aria-label="Default select example" ref={this.select.phim} onChange={(e) => {this.handleChange(e, "phim", rapOptions)}} placeholder="Phim"></Select>
+                    {isLoadingRap ? 
+                        <div className="widthByPercent">
+                            <button className="btn btn-primary w-100" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Loading...
+                            </button>
+                        </div>
+                    :
+                    <Select isDisabled={isLoadingNgayXem} noOptionsMessage={() => "Vui lòng chọn phim"}options={rapOptions && rapOptions} className="custom-select-lg widthByPercent" aria-label="Default select example"  openMenuOnFocus="true" ref={this.select.rap} onChange={(e) => {this.handleChange(e, "rap", ngayXemOptions)}} placeholder="Rạp">
+                    </Select>}
+                    {isLoadingNgayXem ? 
+                        <div className="widthByPercent">
+                            <button className="btn btn-primary w-100" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Loading...
+                            </button>
+                        </div>
+                    :
+                    <Select noOptionsMessage={() => "Vui lòng chọn rạp"} options={ngayXemOptions && ngayXemOptions} className="custom-select-lg widthByPercent" aria-label="Default select example"  openMenuOnFocus="true" ref={this.select.ngayXem} onChange={(e) => {this.handleChange(e, "ngayXem", suatChieuOptions)}} placeholder="Ngày xem"></Select>}
+                    <Select noOptionsMessage={() => "Vui lòng chọn ngày xem"} options={suatChieuOptions && suatChieuOptions} className="custom-select-lg widthByPercent" aria-label="Default select example"  openMenuOnFocus="true" ref={this.select.suatChieu} onChange={(e) => {this.handleChange(e, "suatChieu", null)}} placeholder="Suất chiếu"></Select>
+                    <Link 
+                    className="widthByPercent btn-danger button-mua-ve" 
+                    to = {toRoute}
+                    onClick={this.handleClick}>
+                        MUA VÉ NGAY
+                    </Link>
+                    <Collapse in={isOpenErrMsg}>
+                    <Alert
+                    action={
+                        <IconButton
+                        aria-label="close"
+                        color="inherit"
+                        size="small"
+                        onClick={() => {this.setErrorMsgStatus(false)}}
+                        >
+                        <CloseIcon fontSize="inherit" />
+                        </IconButton>
+                    }
+                    severity="error"
+                    >   
+                        {errMsg}
+                    </Alert>
+                    </Collapse>
                 </div>
             </div>
         );
