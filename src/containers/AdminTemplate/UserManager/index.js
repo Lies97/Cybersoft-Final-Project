@@ -22,7 +22,7 @@ class ListUser extends Component {
           <Users
             user={User}
             key={User.index}
-            handleDeleteUser={() => this.handleDeleteUser()}
+            handleDeleteUser={this.handleDeleteUser()}
           />
         );
       });

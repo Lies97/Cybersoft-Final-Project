@@ -23,16 +23,16 @@ const routesHome = [
   },
 ];
 const routesAdmin = [
-  {
-    exact: false,
-    path: "/dashboard",
-    component: DashboardPage,
-  },
-  {
-    exact: false,
-    path: "/user",
-    component: UserPage,
-  },
+  // {
+  //   exact: false,
+  //   path: "/dashboard",
+  //   component: DashboardPage,
+  // },
+  // {
+  //   exact: false,
+  //   path: "/user",
+  //   component: UserPage,
+  // },
   {
     exact: false,
     path: "/usermanager",

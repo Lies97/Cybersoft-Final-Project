@@ -25,13 +25,17 @@ export default class NavbarAdmin extends Component {
               <NavLink
                 activeClassName="active"
                 className="nav-link"
-                to="/dashboard"
+                to="/filmmanager"
               >
-                Dashboard
+                Movie
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink activeClassName="active" className="nav-link" to="/user">
+              <NavLink
+                activeClassName="active"
+                className="nav-link"
+                to="/usermanager"
+              >
                 User
               </NavLink>
             </li>
