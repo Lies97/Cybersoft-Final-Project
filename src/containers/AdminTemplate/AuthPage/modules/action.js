@@ -20,6 +20,9 @@ export const actLoginApi = (user, history) => {
           localStorage.setItem("UserAdmin", JSON.stringify(result.data));
           //Chuyển đến trang dashboard
           history.push("/usermanager");
+        } else if (result.data.maLoaiNguoiDung === "khachHang") {
+          localStorage.setItem("KhachHang", JSON.stringify(result.data));
+          history.push("/");
         } else {
           history.push("/");
           <NavbarHome taiKhoan="result.data.taiKhoan" />;
