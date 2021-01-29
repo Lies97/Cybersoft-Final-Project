@@ -3,12 +3,12 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { routesHome, routesAdmin } from "./routes/index";
 import HomeTemplate from "./containers/HomeTemplate";
 import AdminTemplate from "./containers/AdminTemplate";
-import Pagenotfound from "./containers/PageNotFault";
+// import Pagenotfound from "./../src/containers/PageNotFault/index";
 import AuthPage from "./containers/AdminTemplate/AuthPage";
-import DatVeTemplate from './containers/DatVeTemplate';
+import DatVeTemplate from "./containers/DatVeTemplate";
 // import NavbarHome from "./components/NavbarHome";
 // import News from "./components/News";
-
+import Pagenotfound from "./containers/PageNotFault";
 const showLayoutHome = (routes) => {
   if (routes && routes.length > 0) {
     return routes.map((item, index) => {
@@ -42,11 +42,7 @@ const showLayoutDatVe = (routes) => {
   if (routes && routes.length > 0) {
     return routes.map((item, index) => {
       return (
-        <Route
-          exact={item.exact}
-          path={item.path}
-          component={item.component}
-        />
+        <Route exact={item.exact} path={item.path} component={item.component} />
       );
     });
   }
@@ -61,7 +57,7 @@ function App() {
           {showLayoutAdmin(routesAdmin)}
           {showLayoutDatVe(routesHome)}
           <Route exact={false} path="/auth" component={AuthPage} />
-          <Route path="" Component={Pagenotfound} />
+          <Route path="" component={Pagenotfound} />
         </Switch>
       </div>
     </BrowserRouter>

@@ -4,7 +4,7 @@ import {
   AUTH_PAGE_FAILED,
 } from "./constant";
 import Axios from "axios";
-
+import NavbarHome from "./../../../../components/NavbarHome";
 export const actLoginApi = (user, history) => {
   return (dispatch) => {
     dispatch(actLoginRequest());
@@ -19,9 +19,12 @@ export const actLoginApi = (user, history) => {
           //Lưu trạng thái login
           localStorage.setItem("UserAdmin", JSON.stringify(result.data));
           //Chuyển đến trang dashboard
-          history.push("/dashboard");
+          history.push("/usermanager");
         } else {
-          alert("K co quyen truy cap");
+          history.push("/");
+          <NavbarHome taiKhoan="result.data.taiKhoan" />;
+
+          // alert("K co quyen truy cap");
         }
       })
       .catch((err) => {

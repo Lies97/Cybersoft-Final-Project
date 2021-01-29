@@ -170,3 +170,42 @@ code {
 /* .table{
   width:500px !important;
 } */
+/* page not found  */
+/* body{
+	font-family:Arial, Helvetica, sans-serif;
+}
+.pageNotFound .wrap{
+	width:1000px;
+	margin:0 auto;
+}
+.pageNotFound .logo{
+	width:430px;
+	position:absolute;
+	top:25%;
+	left:35%;
+}
+.pageNotFound p a{
+	color:#eee;
+	font-size:13px;
+	margin-left:30px;
+	padding:5px;
+	background:#FF3366;
+	text-decoration:none;
+	-webkit-border-radius:.3em;
+	   -moz-border-radius:.3em;
+	        border-radius:.3em;
+}
+.pageNotFound p a:hover{
+	color: #fff;
+}
+.pageNotFound .footer{
+	position:absolute;
+	bottom:10px;
+	right:10px;
+	font-size:12px;
+	color:#aaa;
+}
+.pageNotFound .footer a{
+	color:#666;
+	text-decoration:none;
+} */

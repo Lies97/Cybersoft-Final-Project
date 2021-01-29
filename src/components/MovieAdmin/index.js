@@ -15,8 +15,16 @@ export default class MovieAdmin extends Component {
           />
         </td>
         <td>
-          <button className="btn btn-info ">Edit</button>
-          <button className="btn btn-danger">xoa</button>
+          <button className="btn btn-info ">Sửa</button>
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              const { movie } = this.props;
+              this.props.handleDeleteFilm(movie.maPhim);
+            }}
+          >
+            xóa
+          </button>
         </td>
       </tr>
     );

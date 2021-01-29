@@ -11,10 +11,21 @@ export default class Users extends Component {
         <td>{user.soDt}</td>
         <td>{user.matKhau}</td>
         <td>
-          <button className="btn btn-info ">Edit</button>
+          <button
+            className="btn btn-info d-flex"
+            onClick={() => {
+              const { user } = this.props;
+              this.props.handleEditUser(user);
+            }}
+          >
+            Edit
+          </button>
+        </td>
+        <td>
           <button
             className="btn btn-danger"
             onClick={() => {
+              const { user } = this.props;
               this.props.handleDeleteUser(user.taiKhoan);
             }}
           >

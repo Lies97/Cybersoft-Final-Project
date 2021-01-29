@@ -1,37 +1,35 @@
 import {
-  DELETE_USER_REQUEST,
-  DELETE_USER_SUCCESS,
-  DELETE_USER_FAILED,
-} from "./constant";
+  UPDATE_ACCOUNT_REQUEST,
+  UPDATE_ACCOUNT_SUCCESS,
+  UPDATE_ACCOUNT_FAILED,
+} from "./constants";
 
 let initialState = {
-  loading: false,
+  loading: true,
   data: null,
   err: null,
 };
-
-const deleteUserReducer = (state = initialState, action) => {
+const updateAccountReducer = (state = initialState, action) => {
   switch (action.type) {
-    case DELETE_USER_REQUEST:
+    case UPDATE_ACCOUNT_REQUEST:
       state.loading = true;
       state.data = null;
       state.err = null;
       return { ...state };
-
-    case DELETE_USER_SUCCESS:
+    case UPDATE_ACCOUNT_SUCCESS:
       state.loading = false;
       state.data = action.payload;
       state.err = null;
       return { ...state };
-
-    case DELETE_USER_FAILED:
+    case UPDATE_ACCOUNT_FAILED:
       state.loading = false;
       state.data = null;
       state.err = action.payload;
       return { ...state };
+
     default:
       return { ...state };
   }
 };
 
-export default deleteUserReducer;
+export default updateAccountReducer;

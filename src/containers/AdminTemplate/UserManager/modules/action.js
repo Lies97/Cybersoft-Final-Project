@@ -2,6 +2,7 @@ import {
   USER_MANAGER_REQUEST,
   USER_MANAGER_SUCCESS,
   USER_MANAGER_FAILED,
+  USER_MANAGER_DELETE_FAILED,
 } from "../modules/constant";
 import Axios from "axios";
 
@@ -21,7 +22,26 @@ export const actUserManagerApi = () => {
       });
   };
 };
-
+export const actUserListDeleteAPI = (id) => {
+  let accessToken = JSON.parse(localStorage.getItem("UserAdmin")).accessToken;
+  return (dispatch) => {
+    Axios({
+      url: `https://movie0706.cybersoft.edu.vn/api/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${id}`,
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then(() => {
+        console.log("success");
+        window.history.go("/usermanager");
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(actUserListDeleteFailed(err));
+      });
+  };
+};
 const actUserManagerRequest = () => {
   return {
     type: USER_MANAGER_REQUEST,
@@ -39,5 +59,11 @@ const actUserManagerFailed = (err) => {
   return {
     type: USER_MANAGER_FAILED,
     payload: err,
+  };
+};
+export const actUserListDeleteFailed = (error) => {
+  return {
+    type: USER_MANAGER_DELETE_FAILED,
+    payload: error,
   };
 };

@@ -48,7 +48,7 @@ class DangChieu extends Component {
       <div>
         <Carousel></Carousel>
         <div className="container mt-5 " id="lichChieu">
-          <h2>Previous and Next methods</h2>
+          <h2>Đang Chiếu</h2>
           <Slider ref={(c) => (this.slider = c)} {...settings}>
             {this.renderHMTL()}
           </Slider>

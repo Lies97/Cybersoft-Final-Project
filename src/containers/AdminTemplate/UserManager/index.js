@@ -4,15 +4,21 @@ import { actUserManagerApi } from "./modules/action";
 import { connect } from "react-redux";
 import "./../../../index.css";
 import UserPage from "../UserPage";
-import DeleteUser from "../DeleteUser";
+import { actUserListDeleteAPI } from "./modules/action";
+
+// import DeleteUser from "../DeleteUser";
 
 class ListUser extends Component {
   componentDidMount() {
     this.props.userManagerApi();
   }
   handleDeleteUser = (taiKhoan) => {
-    <DeleteUser taiKhoan={taiKhoan} />;
+    this.props.deleteUserAPI(taiKhoan);
+    this.openMessage();
   };
+  // handleEditUser = (user) => {
+  //   <EditUser user={user} />;
+  // };
 
   renderHMTL = () => {
     const { listUser } = this.props;
@@ -22,12 +28,19 @@ class ListUser extends Component {
           <Users
             user={User}
             key={User.index}
-            handleDeleteUser={this.handleDeleteUser()}
+            handleDeleteUser={this.handleDeleteUser}
           />
         );
       });
     }
   };
+  openMessage = () => {
+    const { errorDelete } = this.props;
+    if (errorDelete) {
+      alert("Can not delete this user at the moment");
+    }
+  };
+
   render() {
     return (
       <div>
@@ -46,7 +59,7 @@ class ListUser extends Component {
           >
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Giỏ hàng</h5>
+                <h5 className="modal-title"></h5>
                 <button
                   type="button"
                   className="close"
@@ -81,6 +94,12 @@ class ListUser extends Component {
         >
           add user
         </button>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Tên nhân viên"
+          id="searchName"
+        ></input>
         <table className="table" className="container">
           <thead>
             <tr>
@@ -89,7 +108,7 @@ class ListUser extends Component {
               <th>Email</th>
               <th>PhoneNumber</th>
               <th>PassWord</th>
-              <th>nut</th>
+              <th>Chức năng</th>
             </tr>
           </thead>
           <tbody>{this.renderHMTL()}</tbody>
@@ -102,11 +121,15 @@ const mapStateToProps = (state) => {
   return {
     loading: state.userManagerReducer.loading,
     listUser: state.userManagerReducer.data,
+    errorDelete: state.userManagerReducer.errorDelete,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     userManagerApi: () => dispatch(actUserManagerApi()),
+    deleteUserAPI: (id) => {
+      dispatch(actUserListDeleteAPI(id));
+    },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ListUser);

@@ -3,6 +3,7 @@ import MovieAdmin from "../../../components/MovieAdmin";
 import { actListMovieApi } from "../../HomeTemplate/DangChieu/modules/actions";
 import { connect } from "react-redux";
 import AddFilm from "../AddFilm";
+import { actMovieListDeleteFailed } from "./../../HomeTemplate/DangChieu/modules/actions";
 class FilmManeger extends Component {
   componentDidMount() {
     this.props.listMovieApi();
@@ -11,8 +12,20 @@ class FilmManeger extends Component {
     const { listMovie } = this.props;
     if (listMovie && listMovie.length > 0) {
       return listMovie.map((movie) => {
-        return <MovieAdmin movie={movie} />;
+        return (
+          <MovieAdmin movie={movie} handleDeleteFilm={this.handleDeleteFilm} />
+        );
       });
+    }
+  };
+  handleDeleteFilm = (id) => {
+    this.props.deleteFilmAPI(id);
+    this.openMessage();
+  };
+  openMessage = () => {
+    const { errorDelete } = this.props;
+    if (errorDelete) {
+      alert("Phim chưa thể xóa được");
     }
   };
   render() {
@@ -88,11 +101,15 @@ const mapStateToProps = (state) => {
   return {
     loading: state.listMovieReducer.loading,
     listMovie: state.listMovieReducer.data,
+    errorDelete: state.listMovieReducer.errorDelete,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     listMovieApi: () => dispatch(actListMovieApi()),
+    deleteFilmAPI: (id) => {
+      dispatch(actMovieListDeleteFailed(id));
+    },
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(FilmManeger);
