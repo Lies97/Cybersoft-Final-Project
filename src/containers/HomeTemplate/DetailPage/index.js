@@ -72,12 +72,9 @@ class DetailPage extends Component {
                     </td>
                   </tr>
                   <tr>
-                    <button
-                      className="btn btn-success"
-                      style={{ width: "100px" }}
-                    >
-                      Mua vé{" "}
-                    </button>
+                    <Link className="btn btn-success" to="/">
+                      Booking
+                    </Link>
                   </tr>
                 </tbody>
               </table>

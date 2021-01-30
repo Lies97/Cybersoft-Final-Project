@@ -28,6 +28,13 @@ code {
 .dangnhap{
  padding-top: 15px;
 }
+.header__right .nav-item a:hover{
+  color:#007bff !important;
+  text-decoration: none;
+}
+.dangNhap:hover{
+  color:#007bff !important;
+}
 /* new */
 
 .news__title{
@@ -79,7 +86,11 @@ code {
 }
 .news h5 a:hover{
   transition: 0.5;
-  color: #4a4a4a;
+  color: orange;
+}
+.news .news__item__small .news__title_small:hover{
+  transition: 0.5;
+  color: orange;
 }
 .news p{
   font-size: 13px;
@@ -101,7 +112,6 @@ code {
   color:  #4a4a4a !important;
 }
 
-
 /* listfilm */
 
 
@@ -113,7 +123,7 @@ code {
   width: 40px;
   height: 40px;
   border-radius: 50% !important;
-  background-color: white !important;
+  background-color: rgb(80, 192, 65) !important;
   /* box-shadow: 0 0 1px 1px rgba(20, 23, 28, 0.1), 0 3px 1px 0 rgba(20, 23, 28, 0.1);
   z-index: 3;
   span {
@@ -132,6 +142,7 @@ code {
   width: 40px;
   height: 40px;
   border-radius: 50% !important;
+  background-color:  rgb(80, 192, 65) !important;
 } 
 .card{
   width: 100%;

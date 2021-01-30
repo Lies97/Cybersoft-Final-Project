@@ -60,13 +60,13 @@ class NavbarHome extends Component {
             </div>
           </div>
           <div className="col-xl-3  d-flex dangnhap">
-            <Link to="./auth" className="nav-link d-flex">
+            <Link to="./auth" className="nav-link dangNhapUser d-flex">
               <img src="./../../../../avarta.png" width="35" height="35 "></img>
               <p className="ml-2">{authReducer ? authReducer.taiKhoan : 'Log In'}</p>
             </Link>
-            <a href="#" className="nav-link">
-              Sign up
-            </a>
+            <Link to="/dangKy" className="nav-link dangNhapUser d-flex">
+              <p className="ml-2"> Đăng kí</p>
+            </Link>
           </div>
         </div>
       </nav>
