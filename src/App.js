@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { routesHome, routesAdmin } from "./routes/index";
+import { routesHome, routesAdmin, routesDatVe } from "./routes/index";
 import HomeTemplate from "./containers/HomeTemplate";
 import AdminTemplate from "./containers/AdminTemplate";
 import Pagenotfound from "./containers/PageNotFault";
@@ -59,7 +59,7 @@ function App() {
         <Switch>
           {showLayoutHome(routesHome)}
           {showLayoutAdmin(routesAdmin)}
-          {showLayoutDatVe(routesHome)}
+          {showLayoutDatVe(routesDatVe)}
           <Route exact={false} path="/auth" component={AuthPage} />
           <Route path="" Component={Pagenotfound} />
         </Switch>
