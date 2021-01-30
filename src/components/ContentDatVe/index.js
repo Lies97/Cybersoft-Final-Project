@@ -78,7 +78,6 @@ class ContentDatVe extends Component {
             item.veDuocDat = true;
             count += item.giaVe;
             danhSachGheDuocDat.push(obj);
-            console.log('push', danhSachGheDuocDat);
         } else {
             item.veDuocDat = false;
             count -= item.giaVe;
@@ -147,7 +146,7 @@ class ContentDatVe extends Component {
     }
 
     render() {
-        const { tenCumRap, ngayChieu, gioChieu, tenRap, classes, danhSachGhe } = this.props;
+        const { tenCumRap, ngayChieu, gioChieu, tenRap, classes, danhSachGhe, authReducer } = this.props;
         const { isOpen } = this.state;
         let img = '';
         let colored = "";
@@ -183,7 +182,7 @@ class ContentDatVe extends Component {
                         <span>02 KẾT QUẢ ĐẶT VÉ</span>
                     </div>
                     <div className="col-3 user">
-                        <span>Mock User</span>
+                        <span>{authReducer.taiKhoan}</span>
                     </div>
                 </div>
                 <div className="container ghe-section">

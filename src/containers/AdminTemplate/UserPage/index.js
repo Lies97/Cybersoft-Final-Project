@@ -17,10 +17,44 @@ class UserPage extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user !== this.props.user) {
+      const { email, hoTen, maLoaiNguoiDung, soDt, taiKhoan, matKhau } = nextProps.user;
+      const { getInputData } = nextProps;
+      this.setState({
+        email,
+        hoTen,
+        maLoaiNguoiDung,
+        soDt,
+        taiKhoan,
+        matKhau,
+      })
+      if (nextProps.isEdit) {
+        this.setState({
+          renderLabel: false,
+          label: 'Edit Profile'
+        })
+        getInputData("email", email);
+        getInputData("hoTen", hoTen);
+        getInputData("maLoaiNguoiDung", maLoaiNguoiDung);
+        getInputData("soDt", soDt);
+        getInputData("taiKhoan", taiKhoan);
+        getInputData("matKhau", matKhau);
+      } else {
+        this.setState({
+          renderLabel: true,
+          label: 'Thêm người dùng'
+        })
+      }
+  }
+}
   handleOnChange = (e) => {
     const { name, value } = e.target;
+    const { getInputData } = this.props;
     this.setState({
       [name]: value,
+    }, () => {
+      getInputData(name, value);
     });
   };
 
@@ -42,10 +76,21 @@ class UserPage extends Component {
 
   render() {
     const { loading } = this.props;
+    const {        
+      email,
+      hoTen,
+      maLoaiNguoiDung,
+      soDt,
+      taiKhoan,
+      matKhau,
+      maNhom,
+      renderLabel = true,
+      label = "Thêm người dùng"
+    } = this.state;
     if (loading) return <Loader />;
     return (
       <form className="container" onSubmit={this.handleSubmit}>
-        <h3>Thêm người dùng</h3>
+        <h3>{label}</h3>
         {this.renderNoti()}
         <div className="form-group">
           <span>Tài khoản</span>
@@ -53,6 +98,7 @@ class UserPage extends Component {
             className="form-control"
             name="taiKhoan"
             onChange={this.handleOnChange}
+            defaultValue={taiKhoan}
           />
         </div>
         <div className="form-group">
@@ -61,6 +107,7 @@ class UserPage extends Component {
             className="form-control"
             name="matKhau"
             onChange={this.handleOnChange}
+            defaultValue={matKhau}
           />
         </div>
         <div className="form-group">
@@ -69,6 +116,7 @@ class UserPage extends Component {
             className="form-control"
             name="hoTen"
             onChange={this.handleOnChange}
+            defaultValue={hoTen}
           />
         </div>
         <div className="form-group">
@@ -77,6 +125,7 @@ class UserPage extends Component {
             className="form-control"
             name="email"
             onChange={this.handleOnChange}
+            defaultValue={email}
           />
         </div>
         <div className="form-group">
@@ -85,6 +134,7 @@ class UserPage extends Component {
             className="form-control"
             name="soDt"
             onChange={this.handleOnChange}
+            defaultValue={soDt}
           />
         </div>
         <div className="form-group">
@@ -93,6 +143,7 @@ class UserPage extends Component {
             className="form-control"
             name="maNhom"
             onChange={this.handleOnChange}
+            defaultValue={maNhom}
           />
         </div>
         <div className="form-group">
@@ -101,12 +152,14 @@ class UserPage extends Component {
             className="form-control"
             name="maLoaiNguoiDung"
             onChange={this.handleOnChange}
+            defaultValue={maLoaiNguoiDung}
           />
         </div>
         <div className="form-group">
+          {renderLabel &&           
           <button type="submit" className="btn btn-success">
             Thêm người dùng
-          </button>
+          </button>}
         </div>
       </form>
     );

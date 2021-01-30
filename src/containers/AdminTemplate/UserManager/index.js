@@ -5,10 +5,27 @@ import { connect } from "react-redux";
 import "./../../../index.css";
 import UserPage from "../UserPage";
 import { actUserListDeleteAPI } from "./modules/action";
-
+import Axios from 'axios';
 // import DeleteUser from "../DeleteUser";
 
+const mockUser = {
+  taiKhoan: "",
+  matKhau: "",
+  hoTen: "",
+  email: "",
+  soDt: "",
+  maNhom: "",
+  maLoaiNguoiDung: "",
+}
 class ListUser extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEdit: false,
+      data: {},
+    }
+  }
+  
   componentDidMount() {
     this.props.userManagerApi();
   }
@@ -20,6 +37,11 @@ class ListUser extends Component {
   //   <EditUser user={user} />;
   // };
 
+  getSelectedUser = (data) => {
+    this.setState({
+      user: data
+    })
+  }
   renderHMTL = () => {
     const { listUser } = this.props;
     if (listUser && listUser.length > 0) {
@@ -29,6 +51,9 @@ class ListUser extends Component {
             user={User}
             key={User.index}
             handleDeleteUser={this.handleDeleteUser}
+            resetIsEdit={this.resetIsEdit}
+            clickedEdit={this.clickedEdit}
+            getSelectedUser={this.getSelectedUser}
           />
         );
       });
@@ -41,7 +66,49 @@ class ListUser extends Component {
     }
   };
 
+  resetIsEdit = () => {
+    this.setState({
+      isEdit: false,
+    })
+  }
+
+  clickedEdit = () => {
+    this.setState({
+      isEdit: true,
+    })
+  }
+
+  handleEdit = () => {
+    const { data } = this.state;
+    let accessToken = JSON.parse(localStorage.getItem("UserAdmin")).accessToken;
+    Axios({
+      url: "https://movie0706.cybersoft.edu.vn/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung",
+      method: "PUT",
+      data,
+      headers: {
+          Authorization: `Bearer ${accessToken}`,
+      }
+    })
+    .then((res) => {
+
+    })
+    .catch((err) => {
+      console.log('err', err);
+    })
+  }
+
+  getInputData = (label, value) => {
+    const { user } = this.state;
+    this.setState({
+      data: {
+        ...user,
+        maLoaiNguoiDung: label == "maLoaiNguoiDung" ? value : "",
+        [label]: value,
+      }
+    })
+  }
   render() {
+    const { isEdit } = this.state;
     return (
       <div>
         <div
@@ -70,7 +137,7 @@ class ListUser extends Component {
                 </button>
               </div>
               <div className="modal-body">
-                <UserPage />
+                <UserPage user={isEdit ? this.state.user : mockUser} isEdit={isEdit} getInputData={this.getInputData}/>
               </div>
               <div className="modal-footer">
                 <button
@@ -80,7 +147,7 @@ class ListUser extends Component {
                 >
                   Close
                 </button>
-                <button type="button" className="btn btn-primary">
+                <button type="button" className="btn btn-primary" onClick={isEdit && this.handleEdit}>
                   Save
                 </button>
               </div>
@@ -91,6 +158,7 @@ class ListUser extends Component {
           className="btn btn-danger "
           data-toggle="modal"
           data-target="#modelId"
+          onClick={this.resetIsEdit}
         >
           add user
         </button>
@@ -100,7 +168,7 @@ class ListUser extends Component {
           placeholder="Tên nhân viên"
           id="searchName"
         ></input>
-        <table className="table" className="container">
+        <table className="container table">
           <thead>
             <tr>
               <th>UserName</th>

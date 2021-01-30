@@ -75,6 +75,8 @@ class Carousel extends Component {
 
     handleValidation = () => {
         const { phim, rap, ngayXem, suatChieu } = this.state;
+        const { authReducer } = this.props;
+        console.log('authReducer', authReducer);
         let errMsg = '';
         if(!phim) {
             errMsg = 'Xin hãy chọn phim';
@@ -87,7 +89,12 @@ class Carousel extends Component {
 
         } else if (!suatChieu) {
             errMsg = 'Xin hãy chọn suất chiếu';
-        } else if (phim && rap && ngayXem && suatChieu) {
+        }  else if (authReducer == null) {
+            errMsg = 'Xin hãy đăng nhập trước';
+            console.log('err', authReducer);
+
+        }   else if (phim && rap && ngayXem && suatChieu && authReducer) {
+            console.log('inside');
             errMsg = '';
             this.setState({
                 isOpenErrMsg: false
@@ -210,7 +217,6 @@ class Carousel extends Component {
                 })
             }
             else if (this.state.ngayXem && item === 'ngayXem') {  
-                console.log(e);              
                 this.setState({
                     suatChieu: null,
                 }, () => {
@@ -250,17 +256,16 @@ class Carousel extends Component {
     }
     render() {
         const { rapOptions, ngayXemOptions, suatChieuOptions, isOpenErrMsg, errMsg, isLoadingRap, isLoadingNgayXem } = this.state;
-        const { listMovie = [] } = this.props;
+        const { listMovie = [], authReducer } = this.props;
         let phimOptions = [];
         listMovie && listMovie.forEach((item) => {
             const option = {value: item.maPhim, label: item.tenPhim};
             phimOptions.push(option);
         })
         let toRoute = '';
-        if (this.state.maLichChieu) {
+        if (this.state.maLichChieu && authReducer) {
             toRoute = `/datve/${this.state.maLichChieu}`;
         }
-        console.log('toRoute', toRoute);
         return (
             <div className="carousel">
                 <div id="carouselExampleCaptions" className="carousel slide" 
@@ -345,7 +350,7 @@ class Carousel extends Component {
                     }
                     severity="error"
                     >   
-                        {errMsg}
+                        {errMsg} {!authReducer && <Link to="/auth" style={{ textDecoration: 'none' }}>Đăng nhập tại đây</Link>}
                     </Alert>
                     </Collapse>
                 </div>
@@ -358,6 +363,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.listMovieReducer.loading,
     listMovie: state.listMovieReducer.data,
+    authReducer: state.authReducer.data
   };
 };
 export default connect(mapStateToProps, null)(Carousel);

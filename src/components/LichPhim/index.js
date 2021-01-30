@@ -262,7 +262,10 @@ class LichPhim extends Component {
                 } else {
                     return (
                         <div>
-                            Loading...
+                            <button className="btn btn-primary" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Loading...
+                            </button>
                         </div>
                     )
                 }
@@ -270,7 +273,7 @@ class LichPhim extends Component {
         } else {
             return (
                 <div className="Test">
-                    Khong co suat chieu
+                    Không có suất chiếu
                 </div>
             )
         }

@@ -6,7 +6,7 @@ import Loader from './../../components/Loader';
 import LeftSideDatVe from './../../components/LeftSideDatVe';
 import ContentDatVe from './../../components/ContentDatVe';
 import RightSideDatVe from './../../components/RightSideDatVe';
-
+import { connect } from 'react-redux'
 
 class DatVe extends Component {
     constructor(props){
@@ -70,6 +70,7 @@ class DatVe extends Component {
               getGheDuocDatState={(arr) => this.getGheDuocDatState(arr)}
               count={this.state.count}
               danhSachGheDuocDat={this.state.danhSachGheDuocDat}
+              authReducer={this.props.authReducer}
             />
             <RightSideDatVe 
               gioChieu={thongTinPhim.gioChieu} 
@@ -81,6 +82,7 @@ class DatVe extends Component {
               count={this.state.count}
               danhSachGheDuocDat={this.state.danhSachGheDuocDat}
               maLichChieu={id}
+              authReducer={this.props.authReducer}
             />
           </div>
         )
@@ -95,4 +97,9 @@ class DatVe extends Component {
     }
 }
 
-export default DatVe;
+const mapStateToProps = (state) => {
+  return {
+    authReducer: state.authReducer.data
+  };
+};
+export default connect(mapStateToProps, null)(DatVe);

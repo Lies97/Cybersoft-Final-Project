@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import "./../../index.css";
 import React, { Component } from "react";
-
-export default class NavbarHome extends Component {
+import { connect } from 'react-redux';
+class NavbarHome extends Component {
   render() {
+    const { authReducer } = this.props;
     return (
       <nav
         className="navbar navbar-expand-lg navbar-light bg-light"
@@ -61,7 +62,7 @@ export default class NavbarHome extends Component {
           <div className="col-xl-3  d-flex dangnhap">
             <Link to="./auth" className="nav-link d-flex">
               <img src="./../../../../avarta.png" width="35" height="35 "></img>
-              <p className="ml-2"> Log in</p>
+              <p className="ml-2">{authReducer ? authReducer.taiKhoan : 'Log In'}</p>
             </Link>
             <a href="#" className="nav-link">
               Sign up
@@ -72,3 +73,11 @@ export default class NavbarHome extends Component {
     );
   }
 }
+
+
+const mapStateToProps = (state) => {
+  return {
+    authReducer: state.authReducer.data
+  };
+};
+export default connect(mapStateToProps, null)(NavbarHome);
