@@ -76,7 +76,6 @@ class Carousel extends Component {
     handleValidation = () => {
         const { phim, rap, ngayXem, suatChieu } = this.state;
         const { authReducer } = this.props;
-        console.log('authReducer', authReducer);
         let errMsg = '';
         if(!phim) {
             errMsg = 'Xin hãy chọn phim';
@@ -91,10 +90,8 @@ class Carousel extends Component {
             errMsg = 'Xin hãy chọn suất chiếu';
         }  else if (authReducer == null) {
             errMsg = 'Xin hãy đăng nhập trước';
-            console.log('err', authReducer);
 
         }   else if (phim && rap && ngayXem && suatChieu && authReducer) {
-            console.log('inside');
             errMsg = '';
             this.setState({
                 isOpenErrMsg: false
@@ -180,10 +177,6 @@ class Carousel extends Component {
                         const { lichChieu } = res.data;
                         let now = new Date();
                         // mock date
-                        now.setDate(1);
-                        now.setHours(0);
-                        now.setMinutes(0);
-                        now.setSeconds(0);
                         now = now.valueOf();
                         let ngayXemOptions = lichChieu.filter(item => new Date(item.ngayChieuGioChieu).valueOf() > now);
                         let array = [];

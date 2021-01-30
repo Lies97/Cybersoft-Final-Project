@@ -98,6 +98,9 @@ class ContentDatVe extends Component {
             if (item.loaiGhe == 'Vip') {
                 className += " vip"
             }
+            if (item.daDat) {
+                className += ' disabled'
+            }
             return (
                 <div key={index} className={className} disabled={item.daDat} onClick={(e) => this.handleClick(e, item, index)}>
                     <WeekendIcon />

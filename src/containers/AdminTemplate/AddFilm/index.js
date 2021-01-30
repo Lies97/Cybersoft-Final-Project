@@ -10,7 +10,7 @@ class AddPhim extends Component {
       maPhim: "",
       tenPhim: "",
       biDanh: "",
-      traiLer: "",
+      trailer: "",
       hinhAnh: "",
       moTa: "",
       maNhom: "",

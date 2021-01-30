@@ -31,6 +31,7 @@ class DatVe extends Component {
             })
             .then((res) => {
                 const { data } = res;
+                console.log('res', res);
                 this.setState({
                     data,
                     loading: false

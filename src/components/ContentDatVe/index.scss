@@ -80,6 +80,10 @@
     color: #f7b500;
 }
 
+.disabled {
+    color: rgb(231, 234, 236);
+    pointer-events: none;
+}
 .card-custom {
     display: flex;
     margin-left: 300px;

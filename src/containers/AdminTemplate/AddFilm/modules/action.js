@@ -11,7 +11,7 @@ export const actAddFilmApi = (film) => {
     dispatch(actAddFilmRequest());
     Axios({
       url:
-        "https://movie0706.cybersoft.edu.vn/api/QuanLyNguoiDung/ThemNguoiDung",
+        "https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/ThemPhim",
       method: "POST",
       data: film,
       headers: {

@@ -102,7 +102,6 @@ class ListUser extends Component {
     this.setState({
       data: {
         ...user,
-        maLoaiNguoiDung: label == "maLoaiNguoiDung" ? value : "",
         [label]: value,
       }
     })

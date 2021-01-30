@@ -51,10 +51,6 @@ class LichPhim extends Component {
                 item.lstLichChieuTheoPhim = item.lstLichChieuTheoPhim.filter((nestedData) => {
                     let now = new Date();
                     // mock date
-                    now.setDate(6);
-                    now.setHours(0);
-                    now.setMinutes(0);
-                    now.setSeconds(0);
                     const date = now.getDate();
                     const month = now.getMonth();
                     const year = now.getFullYear();
