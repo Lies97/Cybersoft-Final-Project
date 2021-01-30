@@ -14,11 +14,6 @@ const routesHome = [
   },
   {
     exact: false,
-    path: "/datve/:id",
-    component: DatVe,
-  },
-  {
-    exact: false,
     path: "/detail/:id",
     component: DetailPage,
   },
@@ -45,4 +40,11 @@ const routesAdmin = [
     component: FilmManeger,
   },
 ];
-export { routesHome, routesAdmin };
+const routesDatVe = [
+  {
+    exact: false,
+    path: "/datve/:id",
+    component: DatVe,
+  },
+]
+export { routesHome, routesAdmin, routesDatVe };
