@@ -5,7 +5,7 @@ import UserPage from "../containers/AdminTemplate/UserPage";
 // import AuthPage from "../containers/AdminTemplate/AuthPage";
 import ListUser from "../containers/AdminTemplate/UserManager";
 import FilmManeger from "../containers/AdminTemplate/FilmManager";
-import DatVe from '../containers/DatVeTemplate/';
+import DatVe from "../containers/DatVeTemplate/";
 const routesHome = [
   {
     exact: true,
@@ -16,6 +16,11 @@ const routesHome = [
     exact: false,
     path: "/detail/:id",
     component: DetailPage,
+  },
+  {
+    exact: false,
+    path: "/dangKy",
+    component: UserPage,
   },
 ];
 const routesAdmin = [
@@ -46,5 +51,5 @@ const routesDatVe = [
     path: "/datve/:id",
     component: DatVe,
   },
-]
+];
 export { routesHome, routesAdmin, routesDatVe };

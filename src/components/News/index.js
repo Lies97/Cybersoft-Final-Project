@@ -73,7 +73,7 @@ export default function News() {
             <img src="https://vnn-imgs-f.vgcloud.vn/2021/01/20/23/06-nt.jpg"></img>
           </div>
           <h5>
-            <a href="#">
+            <a href="https://vietnamnet.vn/vn/giai-tri/thoi-trang/ngoc-thao-dai-dien-viet-nam-du-thi-miss-grand-international-707099.html">
               Ngọc Thảo đại diện Việt Nam dự thi Miss Grand International
             </a>
           </h5>

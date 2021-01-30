@@ -54,7 +54,7 @@ class DangChieu extends Component {
           </Slider>
           <div style={{ textAlign: "center" }}>
             <button className="button previous" onClick={this.previous}>
-              Previous
+              Prev
             </button>
             <button className="button next" onClick={this.next}>
               Next
