@@ -20,6 +20,7 @@ export const actAddUserApi = (user) => {
     })
       .then((result) => {
         dispatch(actAddUserSuccess(result.data));
+        // window.location.reload();
       })
       .catch((err) => {
         dispatch(actAddUserFailed(err));

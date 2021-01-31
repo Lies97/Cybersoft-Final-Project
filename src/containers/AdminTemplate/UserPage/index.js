@@ -19,7 +19,14 @@ class UserPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.user !== this.props.user) {
-      const { email, hoTen, maLoaiNguoiDung, soDt, taiKhoan, matKhau } = nextProps.user;
+      const {
+        email,
+        hoTen,
+        maLoaiNguoiDung,
+        soDt,
+        taiKhoan,
+        matKhau,
+      } = nextProps.user;
       const { getInputData } = nextProps;
       this.setState({
         email,
@@ -28,12 +35,12 @@ class UserPage extends Component {
         soDt,
         taiKhoan,
         matKhau,
-      })
+      });
       if (nextProps.isEdit) {
         this.setState({
           renderLabel: false,
-          label: 'Edit Profile'
-        })
+          label: "Edit Profile",
+        });
         getInputData("email", email);
         getInputData("hoTen", hoTen);
         getInputData("maLoaiNguoiDung", maLoaiNguoiDung);
@@ -43,19 +50,22 @@ class UserPage extends Component {
       } else {
         this.setState({
           renderLabel: true,
-          label: 'Thêm người dùng'
-        })
+          label: "Thêm người dùng",
+        });
       }
+    }
   }
-}
   handleOnChange = (e) => {
     const { name, value } = e.target;
     const { getInputData } = this.props;
-    this.setState({
-      [name]: value,
-    }, () => {
-      getInputData(name, value);
-    });
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => {
+        getInputData(name, value);
+      }
+    );
   };
 
   handleSubmit = (e) => {
@@ -73,10 +83,12 @@ class UserPage extends Component {
       }
     }
   };
-
+  refresh = () => {
+    window.location.reload();
+  };
   render() {
     const { loading } = this.props;
-    const {        
+    const {
       email,
       hoTen,
       maLoaiNguoiDung,
@@ -85,7 +97,7 @@ class UserPage extends Component {
       matKhau,
       maNhom,
       renderLabel = true,
-      label = "Thêm người dùng"
+      label = "Thêm người dùng",
     } = this.state;
     if (loading) return <Loader />;
     return (
@@ -156,10 +168,11 @@ class UserPage extends Component {
           />
         </div>
         <div className="form-group">
-          {renderLabel &&           
-          <button type="submit" className="btn btn-success">
-            Thêm người dùng
-          </button>}
+          {renderLabel && (
+            <button type="submit" className="btn btn-success">
+              Thêm người dùng
+            </button>
+          )}
         </div>
       </form>
     );
