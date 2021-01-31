@@ -46,6 +46,7 @@ class FilmManeger extends Component {
       errMsg: "",
       maPhim: 0,
     };
+    this.onClickButton = React.createRef();
   }
   componentDidMount() {
     this.props.listMovieApi();
@@ -99,8 +100,12 @@ class FilmManeger extends Component {
   };
 
   handleEdit = () => {
-    const { data } = this.state;
-    console.log('data', data);
+    let { data } = this.state;
+    data.maPhim = _.isString(data.maPhim) ? parseInt(data.maPhim) : data.maPhim;
+    data.danhGia = _.isString(data.danhGia) ? parseInt(data.danhGia) : data.danhGia;
+    data = {
+      ...data,
+    }
     let accessToken = JSON.parse(localStorage.getItem("UserAdmin")).accessToken;
     Axios({
       url: "https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/demo",
@@ -138,6 +143,7 @@ class FilmManeger extends Component {
     this.setState({
       isOpen: false
     })
+    this.onClickButton.current.click();
   }
   render() {
     const { isEdit, data } = this.state;
@@ -205,6 +211,7 @@ class FilmManeger extends Component {
                   type="button"
                   className="btn btn-secondary"
                   data-dismiss="modal"
+                  ref={this.onClickButton}
                 >
                   Close
                 </button>

@@ -12,7 +12,6 @@ class DetailPage extends Component {
 
   renderTable = () => {
     const { data } = this.props;
-    console.log(data);
     if (data) {
       return data.lichChieu.map((item) => {
         return (

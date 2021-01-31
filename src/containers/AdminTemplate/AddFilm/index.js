@@ -57,7 +57,7 @@ class AddPhim extends Component {
         getInputData("moTa", moTa);
         getInputData("maNhom", maNhom);
         getInputData("danhGia", danhGia);
-        getInputData("danhGia", ngayKhoiChieu);
+        getInputData("ngayKhoiChieu", ngayKhoiChieu);
       } else {
         this.setState({
           renderLabel: true,
