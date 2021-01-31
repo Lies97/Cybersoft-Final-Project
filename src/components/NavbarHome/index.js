@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./../../index.css";
 import React, { Component } from "react";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 class NavbarHome extends Component {
   render() {
     const { authReducer } = this.props;
@@ -62,7 +62,9 @@ class NavbarHome extends Component {
           <div className="col-xl-3  d-flex dangnhap">
             <Link to="./auth" className="nav-link dangNhapUser d-flex">
               <img src="./../../../../avarta.png" width="35" height="35 "></img>
-              <p className="ml-2">{authReducer ? authReducer.taiKhoan : 'Log In'}</p>
+              <p className="ml-2">
+                {authReducer ? authReducer.taiKhoan : "Log In"}
+              </p>
             </Link>
             <Link to="/dangKy" className="nav-link dangNhapUser d-flex">
               <p className="ml-2"> Đăng kí</p>
@@ -74,10 +76,9 @@ class NavbarHome extends Component {
   }
 }
 
-
 const mapStateToProps = (state) => {
   return {
-    authReducer: state.authReducer.data
+    authReducer: state.authReducer.data,
   };
 };
 export default connect(mapStateToProps, null)(NavbarHome);

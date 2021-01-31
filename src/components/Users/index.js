@@ -3,14 +3,13 @@ import React, { Component } from "react";
 export default class Users extends Component {
   constructor(props) {
     super(props);
-    
   }
-  
+
   handleEdit = () => {
     const { user, clickedEdit, getSelectedUser } = this.props;
     getSelectedUser(user);
     clickedEdit();
-  }
+  };
   render() {
     const { user } = this.props;
     return (

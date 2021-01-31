@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { actLoginApi } from "./modules/action";
 import { connect } from "react-redux";
 import Loader from "./../../../components/Loader";
-
+import "./../../../index.css";
 class AuthPage extends Component {
   constructor(props) {
     super(props);
@@ -35,34 +35,36 @@ class AuthPage extends Component {
     const { loading } = this.props;
     if (loading) return <Loader />;
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-6 mx-auto">
-            <h3>AuthPage</h3>
-            <form onSubmit={this.handleLogin}>
-              {this.renderNoti()}
-              <div className="form-group">
-                <label>Username</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="taiKhoan"
-                  onChange={this.handleOnChange}
-                />
-              </div>
-              <div className="form-group">
-                <label>Password</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="matKhau"
-                  onChange={this.handleOnChange}
-                />
-              </div>
-              <button type="submit" className="btn btn-success">
-                Login
-              </button>
-            </form>
+      <div className="AuthPage">
+        <div className="container ">
+          <div className="row">
+            <div className="col-md-6 mx-auto">
+              <h3>AuthPage</h3>
+              <form onSubmit={this.handleLogin}>
+                {this.renderNoti()}
+                <div className="form-group">
+                  <label>Username</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="taiKhoan"
+                    onChange={this.handleOnChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Password</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="matKhau"
+                    onChange={this.handleOnChange}
+                  />
+                </div>
+                <button type="submit" className="btn btn-success">
+                  Login
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>

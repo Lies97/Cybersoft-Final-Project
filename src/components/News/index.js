@@ -11,12 +11,12 @@ export default function News() {
             </a>
           </li>
           <li>
-            <a className="nav-link" href="https://khenphim.com/">
+            <a className="nav-link news__review" href="https://khenphim.com/">
               Review
             </a>
           </li>
           <li>
-            <a className="nav-link" href="#">
+            <a className="nav-link news__review" href="#">
               Khuyến Mãi
             </a>
           </li>

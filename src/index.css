@@ -32,8 +32,8 @@ code {
   color:#007bff !important;
   text-decoration: none;
 }
-.dangNhap:hover{
-  color:#007bff !important;
+.dangNhap .dangNhapUser a:hover{
+  color:yellow !important;
 }
 /* new */
 
@@ -88,9 +88,9 @@ code {
   transition: 0.5;
   color: orange;
 }
-.news .news__item__small .news__title_small:hover{
-  transition: 0.5;
-  color: orange;
+.news .news__item__small .news__title_small a:hover{
+  transition: 2 !important;
+  color: orange !important;
 }
 .news p{
   font-size: 13px;
@@ -111,7 +111,10 @@ code {
 .news__title_small a{
   color:  #4a4a4a !important;
 }
-
+.news__title .news__review:hover{
+  transition: 0.5 !important;
+  color: orange !important;
+}
 /* listfilm */
 
 
@@ -220,3 +223,10 @@ code {
 	color:#666;
 	text-decoration:none;
 } */
+/* auththen page  */
+.AuthPage{
+  background-image: url(https://i2.wp.com/i.imgur.com/cVEwi9i.jpg);
+  background-repeat: none;
+  background-size: cover;
+  height: 677px;
+}
