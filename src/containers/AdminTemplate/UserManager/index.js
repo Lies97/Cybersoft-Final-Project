@@ -6,7 +6,25 @@ import "./../../../index.css";
 import UserPage from "../UserPage";
 import { actUserListDeleteAPI } from "./modules/action";
 import Axios from "axios";
-// import DeleteUser from "../DeleteUser";
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import { withStyles } from '@material-ui/styles';
+import Fade from '@material-ui/core/Fade';
+import _ from 'lodash';
+const styles = theme => ({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    backgroundColor: '#fff',
+    color: '#000',
+    width: 400,
+    height: 100,
+    padding: "25px"
+  },
+})
 
 const mockUser = {
   taiKhoan: "",
@@ -23,7 +41,11 @@ class ListUser extends Component {
     this.state = {
       isEdit: false,
       data: {},
+      isOpen: false,
+      errMsg: "",
+      validateMsg: "",
     };
+    this.closeButton = React.createRef();
   }
 
   componentDidMount() {
@@ -90,9 +112,21 @@ class ListUser extends Component {
         Authorization: `Bearer ${accessToken}`,
       },
     })
-      .then((res) => {})
+      .then((res) => {
+        if (res) {
+          this.setState({
+            isOpen: true,
+            errMsg: "Edit thành công",
+            validateMsg: ""
+          })
+        }
+      })
       .catch((err) => {
-        console.log("err", err);
+        if (err) {
+          this.setState({
+            validateMsg: 'Sai mã nhóm'
+          })
+        }
       });
   };
 
@@ -106,8 +140,24 @@ class ListUser extends Component {
     });
   };
 
+  handleClose = () => {
+    this.setState({
+      isOpen: false
+    })
+    this.closeButton.current.click();
+  }
+
   render() {
-    const { isEdit } = this.state;
+    const { isEdit, data, errMsg } = this.state;
+    const disabled = 
+      !_.isEmpty(data.email) &&
+      !_.isEmpty(data.hoTen) &&
+      !_.isEmpty(data.maLoaiNguoiDung) &&
+      !_.isEmpty(data.maNhom) &&
+      !_.isEmpty(data.matKhau) &&
+      !_.isEmpty(data.soDt) &&
+      !_.isEmpty(data.taiKhoan) ? false : true;
+    const { classes } = this.props;
     return (
       <div>
         <div
@@ -140,6 +190,7 @@ class ListUser extends Component {
                   user={isEdit ? this.state.user : mockUser}
                   isEdit={isEdit}
                   getInputData={this.getInputData}
+                  validateMsg={this.state.validateMsg}
                 />
               </div>
               <div className="modal-footer">
@@ -147,6 +198,7 @@ class ListUser extends Component {
                   type="button"
                   className="btn btn-secondary"
                   data-dismiss="modal"
+                  ref={this.closeButton}
                 >
                   Close
                 </button>
@@ -154,6 +206,7 @@ class ListUser extends Component {
                   type="button"
                   className="btn btn-primary"
                   onClick={isEdit && this.handleEdit}
+                  disabled={disabled}
                 >
                   Save
                 </button>
@@ -189,6 +242,24 @@ class ListUser extends Component {
           </thead>
           <tbody>{this.renderHMTL()}</tbody>
         </table>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={this.state.isOpen}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+          timeout: 500,
+          }}
+        >
+          <Fade in={this.state.isOpen}>
+            <div className={classes.paper}>
+                <p id="transition-modal-description">{errMsg}</p>
+            </div>
+          </Fade>
+        </Modal>
       </div>
     );
   }
@@ -208,4 +279,4 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ListUser);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ListUser))

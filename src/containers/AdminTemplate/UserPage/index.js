@@ -157,6 +157,9 @@ class UserPage extends Component {
             onChange={this.handleOnChange}
             defaultValue={maNhom}
           />
+          <div style ={{ color: "#bd2130", minHeight: '20px' }}>
+            {this.props.validateMsg}
+          </div>
         </div>
         <div className="form-group">
           <span>Mã loại người dùng</span>

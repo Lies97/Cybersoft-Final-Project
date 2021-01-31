@@ -3,8 +3,29 @@ import MovieAdmin from "../../../components/MovieAdmin";
 import { actListMovieApi } from "../../HomeTemplate/DangChieu/modules/actions";
 import { connect } from "react-redux";
 import AddFilm from "../AddFilm";
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import { withStyles } from '@material-ui/styles';
+import Fade from '@material-ui/core/Fade';
+import _ from 'lodash';
 import Axios from "axios";
 import { actMovieListDeleteFailed } from "./../../HomeTemplate/DangChieu/modules/actions";
+
+const styles = theme => ({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    backgroundColor: '#fff',
+    color: '#000',
+    width: 400,
+    height: 100,
+    padding: "25px"
+  },
+})
+
 const mockFilm = {
   maPhim: "",
   tenPhim: "",
@@ -22,6 +43,7 @@ class FilmManeger extends Component {
     this.state = {
       isEdit: false,
       data: {},
+      errMsg: "",
     };
   }
   componentDidMount() {
@@ -86,7 +108,15 @@ class FilmManeger extends Component {
         Authorization: `Bearer ${accessToken}`,
       },
     })
-      .then((res) => {})
+      .then((res) => {
+        if (res) {
+          this.setState({
+            isOpen: true,
+            errMsg: "Edit thành công",
+            validateMsg: ""
+          })
+        }
+      })
       .catch((err) => {
         console.log("err", err);
       });
@@ -102,8 +132,26 @@ class FilmManeger extends Component {
     });
   };
 
+  handleClose = () => {
+    this.setState({
+      isOpen: false
+    })
+  }
   render() {
-    const { isEdit } = this.state;
+    const { isEdit, data } = this.state;
+    const { classes } = this.props;
+    // TO DO
+    // const disabled = 
+    // !_.isEmpty(data.biDanh) &&
+    // !_.isEmpty(data.danhGia) &&
+    // !_.isEmpty(data.hinhAnh) &&
+    // !_.isEmpty(data.maNhom) &&
+    // !_.isEmpty(data.maPhim) &&
+    // !_.isEmpty(data.moTa) &&
+    // !_.isEmpty(data.ngayKhoiChieu) &&
+    // !_.isEmpty(data.tenPhim) &&
+    // !_.isEmpty(data.trailer) 
+    // ? false : true;
     return (
       <div>
         <div
@@ -133,7 +181,7 @@ class FilmManeger extends Component {
               </div>
               <div className="modal-body">
                 <AddFilm
-                  film={isEdit ? this.state.movie : mockFilm}
+                  movie={isEdit ? this.state.movie : mockFilm}
                   isEdit={isEdit}
                   getInputData={this.getInputData}
                 />
@@ -150,6 +198,8 @@ class FilmManeger extends Component {
                   type="button"
                   className="btn btn-primary"
                   onClick={isEdit && this.handleEdit}
+                  // TODO
+                  // disabled={disabled}
                 >
                   Save
                 </button>
@@ -165,7 +215,7 @@ class FilmManeger extends Component {
         >
           Add phim
         </button>
-        <table className="table" className="container">
+        <table className="table container">
           <thead className="mb-5">
             <tr>
               <th>Mã Phim</th>
@@ -177,6 +227,24 @@ class FilmManeger extends Component {
           </thead>
           <tbody>{this.renderHMTL()}</tbody>
         </table>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={this.state.isOpen}
+          closeAfterTransition
+          onClose={this.handleClose}
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+          timeout: 500,
+          }}
+        >
+          <Fade in={this.state.isOpen}>
+            <div className={classes.paper}>
+                <p id="transition-modal-description">{this.state.errMsg}</p>
+            </div>
+          </Fade>
+        </Modal>
       </div>
     );
   }
@@ -196,4 +264,4 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(FilmManeger);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(FilmManeger))

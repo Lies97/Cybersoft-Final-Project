@@ -12,11 +12,12 @@ export const actUserListUpdateAPI = (account) => {
     dispatch(actUserListUpdateRequest());
     Axios({
       url:
-        "https://movie0706.cybersoft.edu.vn/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung",
+        "/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung",
       method: "PUT",
       data: account,
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        contentType: 'application/json'
       },
     })
       .then((result) => {
