@@ -133,7 +133,7 @@ class FilmManeger extends Component {
               </div>
               <div className="modal-body">
                 <AddFilm
-                  film={isEdit ? this.state.movie : mockFilm}
+                  movie={isEdit ? this.state.movie : mockFilm}
                   isEdit={isEdit}
                   getInputData={this.getInputData}
                 />
