@@ -44,6 +44,7 @@ class FilmManeger extends Component {
       isEdit: false,
       data: {},
       errMsg: "",
+      maPhim: 0,
     };
   }
   componentDidMount() {
@@ -99,6 +100,7 @@ class FilmManeger extends Component {
 
   handleEdit = () => {
     const { data } = this.state;
+    console.log('data', data);
     let accessToken = JSON.parse(localStorage.getItem("UserAdmin")).accessToken;
     Axios({
       url: "https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/demo",
@@ -140,18 +142,30 @@ class FilmManeger extends Component {
   render() {
     const { isEdit, data } = this.state;
     const { classes } = this.props;
+    let condition;
+    if (data && _.isNumber(data.maPhim)) {
+      condition = _.isNumber(data.maPhim);
+    } else if (data && _.isString(data.maPhim)) {
+      condition = data.maPhim.length > 0
+    }
+    let condition1;
+    if (data && _.isNumber(data.danhGia)) {
+      condition1 = _.isNumber(data.danhGia);
+    } else if (data && _.isString(data.danhGia)) {
+      condition1 = data.danhGia.length > 0
+    }
     // TO DO
-    // const disabled = 
-    // !_.isEmpty(data.biDanh) &&
-    // !_.isEmpty(data.danhGia) &&
-    // !_.isEmpty(data.hinhAnh) &&
-    // !_.isEmpty(data.maNhom) &&
-    // !_.isEmpty(data.maPhim) &&
-    // !_.isEmpty(data.moTa) &&
-    // !_.isEmpty(data.ngayKhoiChieu) &&
-    // !_.isEmpty(data.tenPhim) &&
-    // !_.isEmpty(data.trailer) 
-    // ? false : true;
+    const disabled = 
+    condition &&
+    !_.isEmpty(data.tenPhim) &&
+    !_.isEmpty(data.biDanh) &&
+    !_.isEmpty(data.trailer) &&
+    !_.isEmpty(data.hinhAnh) &&
+    !_.isEmpty(data.moTa) &&
+    !_.isEmpty(data.maNhom) &&
+    !_.isEmpty(data.ngayKhoiChieu) &&
+    condition1
+    ? false : true;
     return (
       <div>
         <div
@@ -199,7 +213,7 @@ class FilmManeger extends Component {
                   className="btn btn-primary"
                   onClick={isEdit && this.handleEdit}
                   // TODO
-                  // disabled={disabled}
+                  disabled={disabled}
                 >
                   Save
                 </button>

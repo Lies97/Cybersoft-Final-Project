@@ -7,7 +7,7 @@ class AddPhim extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      maPhim: "",
+      maPhim: 0,
       tenPhim: "",
       biDanh: "",
       trailer: "",
@@ -57,6 +57,7 @@ class AddPhim extends Component {
         getInputData("moTa", moTa);
         getInputData("maNhom", maNhom);
         getInputData("danhGia", danhGia);
+        getInputData("danhGia", ngayKhoiChieu);
       } else {
         this.setState({
           renderLabel: true,
