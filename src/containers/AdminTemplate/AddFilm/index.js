@@ -19,11 +19,64 @@ class AddPhim extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.movie !== this.props.movie) {
+      const {
+        maPhim,
+        tenPhim,
+        biDanh,
+        trailer,
+        hinhAnh,
+        moTa,
+        maNhom,
+        ngayKhoiChieu,
+        danhGia,
+      } = nextProps.movie;
+      const { getInputData } = nextProps;
+      this.setState({
+        maPhim,
+        tenPhim,
+        biDanh,
+        trailer,
+        hinhAnh,
+        moTa,
+        maNhom,
+        ngayKhoiChieu,
+        danhGia,
+      });
+      if (nextProps.isEdit) {
+        this.setState({
+          renderLabel: false,
+          label: "Edit Phim",
+        });
+        getInputData("maPhim", maPhim);
+        getInputData("tenPhim", tenPhim);
+        getInputData("biDanh", biDanh);
+        getInputData("trailer", trailer);
+        getInputData("hinhAnh", hinhAnh);
+        getInputData("moTa", moTa);
+        getInputData("maNhom", maNhom);
+        getInputData("danhGia", danhGia);
+      } else {
+        this.setState({
+          renderLabel: true,
+          label: "Thêm Phim",
+        });
+      }
+    }
+  }
+
   handleOnChange = (e) => {
     const { name, value } = e.target;
-    this.setState({
-      [name]: value,
-    });
+    const { getInputData } = this.props;
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => {
+        getInputData(name, value);
+      }
+    );
   };
 
   handleSubmit = (e) => {
@@ -44,10 +97,23 @@ class AddPhim extends Component {
 
   render() {
     const { loading } = this.props;
+    const {
+      maPhim,
+      tenPhim,
+      biDanh,
+      trailer,
+      hinhAnh,
+      moTa,
+      maNhom,
+      ngayKhoiChieu,
+      danhGia,
+      renderLabel = true,
+      label = "Thêm phim",
+    } = this.state;
     if (loading) return <Loader />;
     return (
       <form className="container" onSubmit={this.handleSubmit}>
-        <h3>Thêm phim</h3>
+        <h3>{label}</h3>
         {this.renderNoti()}
         <div className="form-group">
           <span>Mã phim</span>
@@ -55,6 +121,7 @@ class AddPhim extends Component {
             className="form-control"
             name="maPhim"
             onChange={this.handleOnChange}
+            defaultValue={maPhim}
           />
         </div>
         <div className="form-group">
@@ -63,6 +130,7 @@ class AddPhim extends Component {
             className="form-control"
             name="tenPhim"
             onChange={this.handleOnChange}
+            defaultValue={tenPhim}
           />
         </div>
         <div className="form-group">
@@ -71,6 +139,7 @@ class AddPhim extends Component {
             className="form-control"
             name="biDanh"
             onChange={this.handleOnChange}
+            defaultValue={biDanh}
           />
         </div>
         <div className="form-group">
@@ -79,6 +148,7 @@ class AddPhim extends Component {
             className="form-control"
             name="trailer"
             onChange={this.handleOnChange}
+            defaultValue={trailer}
           />
         </div>
         <div className="form-group">
@@ -87,6 +157,7 @@ class AddPhim extends Component {
             className="form-control"
             name="hinhAnh"
             onChange={this.handleOnChange}
+            defaultValue={hinhAnh}
           />
         </div>
         <div className="form-group">
@@ -95,6 +166,7 @@ class AddPhim extends Component {
             className="form-control"
             name="moTa"
             onChange={this.handleOnChange}
+            defaultValue={moTa}
           />
         </div>
         <div className="form-group">
@@ -103,6 +175,7 @@ class AddPhim extends Component {
             className="form-control"
             name="maNhom"
             onChange={this.handleOnChange}
+            defaultValue={maNhom}
           />
         </div>
         <div className="form-group">
@@ -111,6 +184,7 @@ class AddPhim extends Component {
             className="form-control"
             name="ngayKhoiChieu"
             onChange={this.handleOnChange}
+            defaultValue={ngayKhoiChieu}
           />
         </div>
         <div className="form-group">
@@ -119,12 +193,15 @@ class AddPhim extends Component {
             className="form-control"
             name="danhGia"
             onChange={this.handleOnChange}
+            defaultValue={danhGia}
           />
         </div>
         <div className="form-group">
-          <button type="submit" className="btn btn-success">
-            Thêm Film
-          </button>
+          {renderLabel && (
+            <button type="submit" className="btn btn-success">
+              thêm phim
+            </button>
+          )}
         </div>
       </form>
     );
@@ -140,8 +217,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addFilm: (film) => {
-      dispatch(actAddFilmApi(film));
+    addFilm: (movie) => {
+      dispatch(actAddFilmApi(movie));
     },
   };
 };

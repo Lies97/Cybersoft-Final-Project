@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 // import DeleteUser from "./../../containers/AdminTemplate/DeleteUser/index";
 export default class MovieAdmin extends Component {
+  constructor(props) {
+    super(props);
+  }
+  handleEdit = () => {
+    const { movie, clickedEdit, getSelectedUser } = this.props;
+    getSelectedUser(movie);
+    clickedEdit();
+  };
   render() {
     const { movie } = this.props;
     return (
@@ -15,7 +23,14 @@ export default class MovieAdmin extends Component {
           />
         </td>
         <td>
-          <button className="btn btn-info ">Sửa</button>
+          <button
+            className="btn btn-info d-flex"
+            onClick={this.handleEdit}
+            data-toggle="modal"
+            data-target="#modelId"
+          >
+            Sửa
+          </button>
           <button
             className="btn btn-danger"
             onClick={() => {

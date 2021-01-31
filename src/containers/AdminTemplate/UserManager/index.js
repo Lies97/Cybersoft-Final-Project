@@ -105,9 +105,7 @@ class ListUser extends Component {
       },
     });
   };
-  refresh = () => {
-    window.location.reload();
-  };
+
   render() {
     const { isEdit } = this.state;
     return (
